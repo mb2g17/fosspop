@@ -12,7 +12,7 @@
 /**
  * Inverse square root of two, for normalising velocity
  */
-#define REC_SQRT2 0.7071067811865475 
+#define REC_SQRT2 0.7071067811865475
 
 /**
  * Set of input states
@@ -21,9 +21,9 @@ enum input_state
 {
     NOTHING_PRESSED = 0,
     UP_PRESSED = 1,
-    DOWN_PRESSED = 1<<1,
-    LEFT_PRESSED = 1<<2,
-    RIGHT_PRESSED = 1<<3
+    DOWN_PRESSED = 1 << 1,
+    LEFT_PRESSED = 1 << 2,
+    RIGHT_PRESSED = 1 << 3
 };
 
 /**
@@ -52,39 +52,40 @@ typedef struct Context
  * Processes the input events and sets the velocity
  * of the owl accordingly
  */
-void process_input(Context* ctx)
+void process_input(Context *ctx)
 {
     SDL_Event event;
 
-    while (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event))
+    {
         switch (event.key.keysym.sym)
         {
-            case SDLK_UP:
-                if (event.key.type == SDL_KEYDOWN)
-                    ctx->active_state = (enum input_state)(ctx->active_state | UP_PRESSED);
-                else if (event.key.type == SDL_KEYUP)
-                    ctx->active_state = (enum input_state)(ctx->active_state ^ UP_PRESSED);
-                break;
-            case SDLK_DOWN:
-                if (event.key.type == SDL_KEYDOWN)
-                    ctx->active_state = (enum input_state)(ctx->active_state | DOWN_PRESSED);
-                else if (event.key.type == SDL_KEYUP)
-                    ctx->active_state = (enum input_state)(ctx->active_state ^ DOWN_PRESSED);
-                break;
-            case SDLK_LEFT:
-                if (event.key.type == SDL_KEYDOWN)
-                    ctx->active_state = (enum input_state)(ctx->active_state | LEFT_PRESSED);
-                else if (event.key.type == SDL_KEYUP)
-                    ctx->active_state = (enum input_state)(ctx->active_state ^ LEFT_PRESSED);
-                break;
-            case SDLK_RIGHT:
-                if (event.key.type == SDL_KEYDOWN)
-                    ctx->active_state = (enum input_state)(ctx->active_state | RIGHT_PRESSED);
-                else if (event.key.type == SDL_KEYUP)
-                    ctx->active_state = (enum input_state)(ctx->active_state ^ RIGHT_PRESSED);
-                break;
-            default:
-                break;
+        case SDLK_UP:
+            if (event.key.type == SDL_KEYDOWN)
+                ctx->active_state = (enum input_state)(ctx->active_state | UP_PRESSED);
+            else if (event.key.type == SDL_KEYUP)
+                ctx->active_state = (enum input_state)(ctx->active_state ^ UP_PRESSED);
+            break;
+        case SDLK_DOWN:
+            if (event.key.type == SDL_KEYDOWN)
+                ctx->active_state = (enum input_state)(ctx->active_state | DOWN_PRESSED);
+            else if (event.key.type == SDL_KEYUP)
+                ctx->active_state = (enum input_state)(ctx->active_state ^ DOWN_PRESSED);
+            break;
+        case SDLK_LEFT:
+            if (event.key.type == SDL_KEYDOWN)
+                ctx->active_state = (enum input_state)(ctx->active_state | LEFT_PRESSED);
+            else if (event.key.type == SDL_KEYUP)
+                ctx->active_state = (enum input_state)(ctx->active_state ^ LEFT_PRESSED);
+            break;
+        case SDLK_RIGHT:
+            if (event.key.type == SDL_KEYDOWN)
+                ctx->active_state = (enum input_state)(ctx->active_state | RIGHT_PRESSED);
+            else if (event.key.type == SDL_KEYUP)
+                ctx->active_state = (enum input_state)(ctx->active_state ^ RIGHT_PRESSED);
+            break;
+        default:
+            break;
         }
     }
 
@@ -106,9 +107,9 @@ void process_input(Context* ctx)
     }
 }
 
-void loop_handler(void* arg)
+void loop_handler(void *arg)
 {
-    Context* ctx = (Context*)arg;
+    Context *ctx = (Context *)arg;
 
     int vx = 0;
     int vy = 0;
@@ -122,14 +123,14 @@ void loop_handler(void* arg)
     SDL_RenderPresent(ctx->renderer);
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window* window;
+    SDL_Window *window;
     Context ctx;
 
-    SDL_CreateWindowAndRenderer(600, 400, 0, &window, &ctx.renderer);
+    SDL_CreateWindowAndRenderer(800, 600, 0, &window, &ctx.renderer);
 
     SDL_SetRenderDrawColor(ctx.renderer, 128, 0, 0, 255);
     SDL_RenderClear(ctx.renderer);
@@ -141,7 +142,7 @@ int main(int argc, char** argv)
     ctx.dest.w = image->w;
     ctx.dest.h = image->h;
     SDL_FreeSurface(image);
-    
+
     // Sets initial state
     ctx.active_state = NOTHING_PRESSED;
     ctx.dest.x = 200;
