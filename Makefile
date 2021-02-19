@@ -1,4 +1,5 @@
-BUILD_DIR = "./build"
+CC="emcc"
+BUILD_DIR="./build"
 
 clean:
 	@echo Cleaning...
@@ -7,7 +8,7 @@ clean:
 build:
 	@echo Building...
 	mkdir build
-	emcc src/main.cpp -O2 \
+	emcc src/main.cpp \
 		-s USE_SDL=2 \
 		-s USE_SDL_IMAGE=2 \
 		-s SDL2_IMAGE_FORMATS='["png"]' \
