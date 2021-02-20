@@ -166,14 +166,14 @@ int main(int argc, char **argv)
     // Sets game
     Game *game = new Game(ctx.renderer);
 
-    char *filenames[7] = {
-        (char *)"assets/blue.fw.png",
-        (char *)"assets/green.fw.png",
-        (char *)"assets/orange.fw.png",
-        (char *)"assets/pink.fw.png",
-        (char *)"assets/purple.fw.png",
-        (char *)"assets/red.fw.png",
-        (char *)"assets/yellow.fw.png"};
+    const char *filenames[7] = {
+        "assets/blue.fw.png",
+        "assets/green.fw.png",
+        "assets/orange.fw.png",
+        "assets/pink.fw.png",
+        "assets/purple.fw.png",
+        "assets/red.fw.png",
+        "assets/yellow.fw.png"};
 
     for (int i = 0; i < 7; i++)
     {

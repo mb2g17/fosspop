@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "game/obj/obj.hpp"
+#include "game/obj.hpp"
 
 Obj::Obj(SDL_Renderer *renderer, const char *path)
 {

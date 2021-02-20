@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "game/obj/obj.hpp"
+#include "game/obj.hpp"
 
 class Game
 {

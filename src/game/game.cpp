@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "game/game.hpp"
+#include "game/obj.hpp"
 
 Game::Game(SDL_Renderer *renderer)
 {
