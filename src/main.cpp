@@ -1,8 +1,3 @@
-// Copyright 2011 The Emscripten Authors.  All rights reserved.
-// Emscripten is available under two separate licenses, the MIT license and the
-// University of Illinois/NCSA Open Source License.  Both these licenses can be
-// found in the LICENSE file.
-
 #include <cstdio>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -33,6 +28,8 @@ enum input_state
  */
 typedef struct Context
 {
+    Game *game;
+
     SDL_Renderer *renderer;
 
     /**
@@ -113,7 +110,9 @@ void loop_handler(void *arg)
 {
     Context *ctx = (Context *)arg;
 
-    int vx = 0;
+    ctx->game->update();
+
+    /*int vx = 0;
     int vy = 0;
     process_input(ctx);
 
@@ -122,14 +121,24 @@ void loop_handler(void *arg)
 
     SDL_RenderClear(ctx->renderer);
     SDL_RenderCopy(ctx->renderer, ctx->tex, NULL, &ctx->dest);
+
+    SDL_Rect rect;
+    rect.x = ctx->dest.x + 150;
+    rect.y = ctx->dest.y + 150;
+    rect.w = ctx->dest.w;
+    rect.h = ctx->dest.h;
+    SDL_RenderCopy(ctx->renderer, ctx->tex, NULL, &rect);*/
+
     SDL_RenderPresent(ctx->renderer);
 }
 
+#include <string>
 int main(int argc, char **argv)
 {
     printf("Started\n");
 
     SDL_Init(SDL_INIT_VIDEO);
+    IMG_Init(IMG_INIT_PNG);
 
     SDL_Window *window;
     Context ctx;
@@ -154,12 +163,43 @@ int main(int argc, char **argv)
     ctx.vx = 0;
     ctx.vy = 0;
 
-    printf("Running game draw method...\n");
-    Game game = Game();
-    game.draw();
+    // Sets game
+    Game *game = new Game(ctx.renderer);
+
+    char *filenames[7] = {
+        (char *)"assets/blue.fw.png",
+        (char *)"assets/green.fw.png",
+        (char *)"assets/orange.fw.png",
+        (char *)"assets/pink.fw.png",
+        (char *)"assets/purple.fw.png",
+        (char *)"assets/red.fw.png",
+        (char *)"assets/yellow.fw.png"};
+
+    for (int i = 0; i < 7; i++)
+    {
+        Obj *obj = new Obj(ctx.renderer, filenames[i]);
+        obj->setPos(50 * i, 50 * i);
+        game->addObj(obj);
+    }
+
+    /*Obj *obj1 = new Obj(ctx.renderer, "assets/blue.fw.png");
+    game->addObj(obj1);
+
+    Obj *obj2 = new Obj(ctx.renderer, "assets/green.fw.png");
+    obj2->setPos(50, 50);
+    game->addObj(obj2);
+
+    Obj *obj3 = new Obj(ctx.renderer, "assets/red.fw.png");
+    obj3->setPos(100, 100);
+    game->addObj(obj3);*/
+
+    ctx.game = game;
 
     // Starts loop
     emscripten_set_main_loop_arg(loop_handler, &ctx, -1, 1);
+
+    IMG_Quit();
+    SDL_Quit();
 
     return 0;
 }
