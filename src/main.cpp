@@ -9,6 +9,8 @@
 
 #include <emscripten.h>
 
+#include "game/game.hpp"
+
 /**
  * Inverse square root of two, for normalising velocity
  */
@@ -125,6 +127,8 @@ void loop_handler(void *arg)
 
 int main(int argc, char **argv)
 {
+    printf("Started\n");
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window *window;
@@ -149,6 +153,10 @@ int main(int argc, char **argv)
     ctx.dest.y = 100;
     ctx.vx = 0;
     ctx.vy = 0;
+
+    printf("Running game draw method...\n");
+    Game game = Game();
+    game.draw();
 
     // Starts loop
     emscripten_set_main_loop_arg(loop_handler, &ctx, -1, 1);

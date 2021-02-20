@@ -1,23 +1,38 @@
-CC := emcc
-CC_FLAGS := -s USE_SDL=2 \
-		-s USE_SDL_IMAGE=2 \
-		-s SDL2_IMAGE_FORMATS='["png"]' \
-		-o build/index.js \
-		--use-preload-plugins \
-		--preload-file assets
+CC			:= emcc
+SDL2_FLAGS	:= -s USE_SDL=2
+SDL2_IMAGE_FLAGS	:= -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='["png"]'
+PRELOAD_ASSETS_FLAGS := --use-preload-plugins --preload-file assets
 
-BUILD_DIR := build
+INCLUDE_DIR := include
+LIB_DIR 	:= lib
+SRC_DIR 	:= src
+
+BUILD_DIR 	:= build
+OUT_DIR 	:= $(BUILD_DIR)/out
+DIST_DIR 	:= $(BUILD_DIR)/dist
 
 clean:
-	@echo Cleaning...
-	if [ -d $(BUILD_DIR) ]; then rm -r build; fi
+	rm -rf $(BUILD_DIR)
 
-build:
-	@echo Building...
-	if [ ! -d $(BUILD_DIR) ]; then mkdir build; fi
-	cp public/* $(BUILD_DIR)
-	$(CC) src/main.cpp $(CC_FLAGS)
+build: main.o game.o
+
+dist: main.o game.o
+	mkdir -p $(DIST_DIR)
+	cp public/* $(DIST_DIR)
+	$(CC) $(SDL2_FLAGS) $(SDL2_IMAGE_FLAGS) $(PRELOAD_ASSETS_FLAGS) \
+		-o $(DIST_DIR)/index.js \
+		$(OUT_DIR)/main.o $(OUT_DIR)/game.o
+
+define build_lib
+	mkdir -p $(OUT_DIR)
+	$(CC) $(SDL2_FLAGS) $(SDL2_IMAGE_FLAGS) -I$(INCLUDE_DIR) -c -o $(OUT_DIR)/$(2) $(1)
+endef
+
+game.o: $(LIB_DIR)/game/game.cpp
+	$(call build_lib,$(LIB_DIR)/game/game.cpp,game.o)
+
+main.o: $(SRC_DIR)/main.cpp
+	$(call build_lib,$(SRC_DIR)/main.cpp,main.o)
 
 run:
-	@echo Running...
-	cd build && http-server
+	cd $(DIST_DIR) && http-server
