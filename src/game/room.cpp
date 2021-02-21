@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <SDL2/SDL.h>
 
 #include "game/room.hpp"
@@ -38,4 +39,14 @@ void Room::draw(SDL_Renderer *renderer)
         object->draw(renderer);
 
     SDL_RenderPresent(renderer);
+}
+
+void Room::handleInput(SDL_Event *event)
+{
+    switch (event->type)
+    {
+    case SDL_KEYDOWN:
+        printf("pressed: %s\n", SDL_GetKeyName(event->key.keysym.sym));
+        break;
+    }
 }

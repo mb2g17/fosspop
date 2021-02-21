@@ -16,10 +16,21 @@ Game::~Game()
 void Game::update()
 {
     this->currentRoom->update(this->renderer);
+    this->processInput();
 }
 
 void Game::setCurrentRoom(Room *newRoom)
 {
     delete this->currentRoom;
     this->currentRoom = newRoom;
+}
+
+void Game::processInput()
+{
+    SDL_Event event;
+
+    while (SDL_PollEvent(&event))
+    {
+        this->currentRoom->handleInput(&event);
+    }
 }

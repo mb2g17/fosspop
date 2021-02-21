@@ -13,8 +13,9 @@ public:
     Room();
     ~Room();
     void update(SDL_Renderer *);
-    void addObj(Obj *obj);
-    void setBgColor(SDL_Color colour);
+    void addObj(Obj *);
+    void setBgColor(SDL_Color);
+    void handleInput(SDL_Event *);
 
 private:
     void draw(SDL_Renderer *);

@@ -15,4 +15,7 @@ public:
     ~Game();
     void update();
     void setCurrentRoom(Room *);
+
+private:
+    void processInput();
 };
