@@ -20,7 +20,7 @@ add_subdirectory(src)
 add_executable(FossPop src/main.cpp)
 
 # Links libraries with main executable
-target_link_libraries(FossPop PUBLIC Main Game)
+target_link_libraries(FossPop PUBLIC Main Game Test)
 
 # Set output as JS file
 set(CMAKE_EXECUTABLE_SUFFIX ".js")

@@ -5,6 +5,7 @@
 #include <emscripten.h>
 
 #include "game/game.hpp"
+#include "test/test_room.hpp"
 
 /**
  * Inverse square root of two, for normalising velocity
@@ -165,7 +166,8 @@ int main(int argc, char **argv)
 
     // Sets game
     Game *game = new Game(ctx.renderer);
-    Room *room = new Room();
+
+    /*Room *room = new Room();
     room->setBgColor({.r = 0xBF, .g = 0x00, .b = 0xFF, .a = 0xFF});
     game->setCurrentRoom(room);
 
@@ -183,7 +185,10 @@ int main(int argc, char **argv)
         Obj *obj = new Obj(ctx.renderer, filenames[i]);
         obj->setPos(50 * i, 50 * i);
         room->addObj(obj);
-    }
+    }*/
+
+    TestRoom *testRoom = new TestRoom(ctx.renderer);
+    game->setCurrentRoom(testRoom);
 
     /*Obj *obj1 = new Obj(ctx.renderer, "assets/blue.fw.png");
     game->addObj(obj1);
