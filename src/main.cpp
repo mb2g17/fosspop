@@ -135,7 +135,7 @@ void loop_handler(void *arg)
 #include <string>
 int main(int argc, char **argv)
 {
-    printf("Started\n");
+    printf("Started!!\n");
 
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
@@ -165,6 +165,8 @@ int main(int argc, char **argv)
 
     // Sets game
     Game *game = new Game(ctx.renderer);
+    Room *room = new Room();
+    game->setCurrentRoom(room);
 
     const char *filenames[7] = {
         "assets/blue.fw.png",
@@ -179,7 +181,7 @@ int main(int argc, char **argv)
     {
         Obj *obj = new Obj(ctx.renderer, filenames[i]);
         obj->setPos(50 * i, 50 * i);
-        game->addObj(obj);
+        room->addObj(obj);
     }
 
     /*Obj *obj1 = new Obj(ctx.renderer, "assets/blue.fw.png");
