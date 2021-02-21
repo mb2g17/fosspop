@@ -41,12 +41,64 @@ void Room::draw(SDL_Renderer *renderer)
     SDL_RenderPresent(renderer);
 }
 
-void Room::handleInput(SDL_Event *event)
+void Room::onKeyDown(const SDL_KeyboardEvent *keyboardEvent)
 {
-    switch (event->type)
+    printf("key down: %s\n", SDL_GetKeyName(keyboardEvent->keysym.sym));
+}
+
+void Room::onKeyUp(const SDL_KeyboardEvent *keyboardEvent)
+{
+    printf("key up: %s\n", SDL_GetKeyName(keyboardEvent->keysym.sym));
+}
+
+void Room::onMouseMotion(const SDL_MouseMotionEvent *mouseMotionEvent)
+{
+    printf("mouse motion x: %d, y: %d, xrel: %d, yrel: %d\n", mouseMotionEvent->x, mouseMotionEvent->y, mouseMotionEvent->xrel, mouseMotionEvent->yrel);
+
+    if (mouseMotionEvent->state & SDL_BUTTON_LMASK)
     {
-    case SDL_KEYDOWN:
-        printf("pressed: %s\n", SDL_GetKeyName(event->key.keysym.sym));
+        printf("Dragging with left mouse button\n");
+    }
+}
+
+void Room::onMouseButtonDown(const SDL_MouseButtonEvent *mouseButtonEvent)
+{
+    const char *buttonStr = NULL;
+    switch (mouseButtonEvent->button)
+    {
+    case SDL_BUTTON_LEFT:
+        buttonStr = "Left";
+        break;
+    case SDL_BUTTON_MIDDLE:
+        buttonStr = "Middle";
+        break;
+    case SDL_BUTTON_RIGHT:
+        buttonStr = "Right";
+        break;
+    default:
+        buttonStr = "Unknown";
         break;
     }
+    printf("Mouse button down %s\n", buttonStr);
+}
+
+void Room::onMouseButtonUp(const SDL_MouseButtonEvent *mouseButtonEvent)
+{
+    const char *buttonStr = NULL;
+    switch (mouseButtonEvent->button)
+    {
+    case SDL_BUTTON_LEFT:
+        buttonStr = "Left";
+        break;
+    case SDL_BUTTON_MIDDLE:
+        buttonStr = "Middle";
+        break;
+    case SDL_BUTTON_RIGHT:
+        buttonStr = "Right";
+        break;
+    default:
+        buttonStr = "Unknown";
+        break;
+    }
+    printf("Mouse button up %s\n", buttonStr);
 }

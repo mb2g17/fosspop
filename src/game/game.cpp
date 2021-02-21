@@ -31,6 +31,23 @@ void Game::processInput()
 
     while (SDL_PollEvent(&event))
     {
-        this->currentRoom->handleInput(&event);
+        switch (event.type)
+        {
+        case SDL_KEYDOWN:
+            this->currentRoom->onKeyDown(&event.key);
+            break;
+        case SDL_KEYUP:
+            this->currentRoom->onKeyUp(&event.key);
+            break;
+        case SDL_MOUSEMOTION:
+            this->currentRoom->onMouseMotion(&event.motion);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            this->currentRoom->onMouseButtonDown(&event.button);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            this->currentRoom->onMouseButtonUp(&event.button);
+            break;
+        }
     }
 }

@@ -15,7 +15,12 @@ public:
     void update(SDL_Renderer *);
     void addObj(Obj *);
     void setBgColor(SDL_Color);
-    void handleInput(SDL_Event *);
+
+    void onKeyDown(const SDL_KeyboardEvent *);
+    void onKeyUp(const SDL_KeyboardEvent *);
+    void onMouseMotion(const SDL_MouseMotionEvent *);
+    void onMouseButtonDown(const SDL_MouseButtonEvent *);
+    void onMouseButtonUp(const SDL_MouseButtonEvent *);
 
 private:
     void draw(SDL_Renderer *);
