@@ -166,6 +166,7 @@ int main(int argc, char **argv)
     // Sets game
     Game *game = new Game(ctx.renderer);
     Room *room = new Room();
+    room->setBgColor({.r = 0xBF, .g = 0x00, .b = 0xFF, .a = 0xFF});
     game->setCurrentRoom(room);
 
     const char *filenames[7] = {
