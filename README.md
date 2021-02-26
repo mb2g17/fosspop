@@ -29,7 +29,7 @@ Prerequisites:
 ```shell
 mkdir cmake_build
 cd cmake_build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=<Emscripten toolchain file path>
+cmake ../src -DCMAKE_TOOLCHAIN_FILE=<Emscripten toolchain file path>
 make all
 http-server dist
 ```
