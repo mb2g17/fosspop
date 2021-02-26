@@ -1,30 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lSDL2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lSDL2 -lSDL2_image")
+set(BINARY ${CMAKE_PROJECT_NAME})
 
-project(FossPop_Tests)
+file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
-set(CTEST_BINARY_DIRECTORY ${PROJECT_BINARY_DIR}/tests)
+set(SOURCES ${TEST_SOURCES})
 
-file(GLOB files "test_*.cpp")
+# Create executable of tests
+add_executable(${BINARY} ${TEST_SOURCES})
 
-include(CTest)
-
-foreach(file ${files})
-    string(REGEX REPLACE "(^.*/|\\.[^.]*$)" "" file_without_ext ${file})
-
-    # Create executable of test case
-    add_executable(${file_without_ext} ${file})
-
-    # Adds include directories and links libraries to test case executable
-    target_link_libraries(${file_without_ext} ${PROJECT_LIBS})
-
-    # Add test
-    add_test(NAME ${file_without_ext} COMMAND ${file_without_ext} WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/tests)
-
-    # Sets timeout
-    set_tests_properties(${file_without_ext}
-        PROPERTIES
-        TIMEOUT 120)
-endforeach()
+# Links libraries to tests
+target_link_libraries(${BINARY} gtest Game Test ${PROJECT_LIBS})
