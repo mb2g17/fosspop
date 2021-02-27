@@ -37,15 +37,7 @@ namespace RoomEventTest
 
         EventFixture()
         {
-            SDL_Init(SDL_INIT_VIDEO);
-            IMG_Init(IMG_INIT_PNG);
-
-            SDL_Window *window;
-            SDL_Renderer *renderer;
-
-            SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer);
-
-            this->game = new Game(renderer);
+            this->game = new Game();
             this->room = new TestRoom();
             game->setCurrentRoom(this->room);
         }
@@ -72,9 +64,6 @@ namespace RoomEventTest
         ~EventFixture()
         {
             delete this->game;
-            delete this->room;
-
-            SDL_Quit();
         }
     };
 }

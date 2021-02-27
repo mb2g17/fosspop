@@ -11,10 +11,11 @@ class Game
     Room *currentRoom;
 
 public:
-    Game(SDL_Renderer *);
+    Game();
     ~Game();
     void update();
     void setCurrentRoom(Room *);
+    SDL_Renderer *getRenderer();
 
 private:
     void processInput();

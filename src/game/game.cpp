@@ -3,14 +3,24 @@
 #include "game/game.hpp"
 #include "game/obj.hpp"
 
-Game::Game(SDL_Renderer *renderer)
+Game::Game()
 {
+    SDL_Init(SDL_INIT_VIDEO);
+    IMG_Init(IMG_INIT_PNG);
+
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+
+    SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer);
+
     this->renderer = renderer;
 }
 
 Game::~Game()
 {
     SDL_DestroyRenderer(this->renderer);
+    IMG_Quit();
+    SDL_Quit();
 }
 
 void Game::update()
@@ -23,6 +33,11 @@ void Game::setCurrentRoom(Room *newRoom)
 {
     delete this->currentRoom;
     this->currentRoom = newRoom;
+}
+
+SDL_Renderer *Game::getRenderer()
+{
+    return this->renderer;
 }
 
 void Game::processInput()
