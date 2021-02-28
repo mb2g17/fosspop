@@ -35,7 +35,7 @@ void Room::draw(SDL_Renderer *renderer)
     SDL_RenderClear(renderer);
 
     for (auto &object : *this->objects)
-        object->draw(renderer);
+        object->update(renderer);
 
     SDL_RenderPresent(renderer);
 }

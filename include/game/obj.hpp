@@ -11,6 +11,9 @@ class Obj
 public:
     Obj(SDL_Renderer *, const char *);
     ~Obj();
-    void draw(SDL_Renderer *);
+    virtual void update(SDL_Renderer *);
     void setPos(int x, int y);
+
+protected:
+    void draw(SDL_Renderer *);
 };

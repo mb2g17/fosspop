@@ -7,17 +7,27 @@
 
 Obj::Obj(SDL_Renderer *renderer, const char *path)
 {
-    SDL_Surface *image = IMG_Load(path);
-    this->tex = SDL_CreateTextureFromSurface(renderer, image);
-    this->dest.w = image->w;
-    this->dest.h = image->h;
+    if (renderer != NULL)
+    {
+        SDL_Surface *image = IMG_Load(path);
+        this->tex = SDL_CreateTextureFromSurface(renderer, image);
+        this->dest.w = image->w;
+        this->dest.h = image->h;
 
-    SDL_FreeSurface(image);
+        SDL_FreeSurface(image);
+    }
+    else
+        this->tex = NULL;
 }
 
 Obj::~Obj()
 {
     SDL_DestroyTexture(this->tex);
+}
+
+void Obj::update(SDL_Renderer *renderer)
+{
+    this->draw(renderer);
 }
 
 void Obj::draw(SDL_Renderer *renderer)
