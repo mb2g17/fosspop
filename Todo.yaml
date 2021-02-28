@@ -1,0 +1,14 @@
+Todo:
+    Src:
+        - Make Obj more general and add a SpriteObj
+    Tests:
+        Game:
+            - should run
+            - should update room on game update
+        Room:
+            - should update added objects on room update
+            - should update BG colour on update
+        Obj:
+            - should load given asset
+            - should draw obj at position
+            - should not load any texture (null ptr), and rect should all be zeroes, if renderer ptr is NULL in constructor
