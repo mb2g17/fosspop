@@ -5,6 +5,7 @@
 
 #include "game/game.hpp"
 #include "game/room.hpp"
+
 #include "gtest/gtest.h"
 
 namespace RoomEventTest
@@ -30,8 +31,9 @@ namespace RoomEventTest
     };
 
     template <int event_type>
-    struct EventFixture : public testing::Test, testing::WithParamInterface<int>
+    class EventFixture : public testing::Test, public testing::WithParamInterface<int>
     {
+    public:
         Game *game;
         TestRoom *room;
 
@@ -40,25 +42,16 @@ namespace RoomEventTest
             this->game = new Game();
             this->room = new TestRoom();
             game->setCurrentRoom(this->room);
-        }
 
-        void SetUp() override
-        {
             // Push events
             SDL_Event event{.type = event_type};
             auto noOfEvents = GetParam();
 
             for (int i = 0; i < noOfEvents; i++)
                 SDL_PushEvent(&event);
-        }
 
-        void TearDown() override
-        {
-            this->room->keyDownCount = 0;
-            this->room->keyUpCount = 0;
-            this->room->mouseMotionCount = 0;
-            this->room->mouseButtonDownCount = 0;
-            this->room->mouseButtonUpCount = 0;
+            // Handle events
+            game->update();
         }
 
         ~EventFixture()
@@ -76,7 +69,6 @@ using namespace RoomEventTest;
     };                                                                        \
     TEST_P(EVENT_FIXTURE_NAME, TEST_NAME)                                     \
     {                                                                         \
-        game->update();                                                       \
         EXPECT_EQ(room->EVENT_PROPERTY, GetParam());                          \
     }                                                                         \
     INSTANTIATE_TEST_CASE_P(Default, EVENT_FIXTURE_NAME,                      \
