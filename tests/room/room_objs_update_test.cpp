@@ -18,26 +18,31 @@ namespace RoomObjsUpdateTest
         void update(SDL_Renderer *) override { this->updated = true; }
     };
 
-    class TestRoom : public Room
+    class EventFixture : public testing::Test, public testing::WithParamInterface<int>
     {
     private:
         std::vector<UpdateFlagObj *> *updateFlagObjs;
 
     public:
-        TestRoom(int noOfObjs)
+        Game *game;
+        Room *room;
+
+        EventFixture()
         {
             this->updateFlagObjs = new std::vector<UpdateFlagObj *>();
 
-            for (int i = 0; i < noOfObjs; i++)
-            {
-                UpdateFlagObj *obj = new UpdateFlagObj();
-                this->addObj(obj);
-                this->updateFlagObjs->push_back(obj);
-            }
+            this->game = new Game();
+            this->room = new Room();
+            game->setCurrentRoom(this->room);
+
+            this->addUpdateFlagObjs();
+
+            this->game->update();
         }
 
-        ~TestRoom()
+        ~EventFixture()
         {
+            delete this->game;
             delete this->updateFlagObjs;
         }
 
@@ -51,28 +56,18 @@ namespace RoomObjsUpdateTest
             }
             return true;
         }
-    };
 
-    class EventFixture : public testing::Test, public testing::WithParamInterface<int>
-    {
-    public:
-        Game *game;
-        TestRoom *room;
-
-        EventFixture()
+    private:
+        void addUpdateFlagObjs()
         {
             const int noOfObjs = GetParam();
 
-            this->game = new Game();
-            this->room = new TestRoom(noOfObjs);
-            game->setCurrentRoom(this->room);
-
-            this->game->update();
-        }
-
-        ~EventFixture()
-        {
-            delete this->game;
+            for (int i = 0; i < noOfObjs; i++)
+            {
+                UpdateFlagObj *obj = new UpdateFlagObj();
+                this->room->addObj(obj);
+                this->updateFlagObjs->push_back(obj);
+            }
         }
     };
 }
@@ -81,7 +76,7 @@ using namespace RoomObjsUpdateTest;
 
 TEST_P(EventFixture, room_objs_update_test)
 {
-    EXPECT_TRUE(room->areAllObjsUpdated());
+    EXPECT_TRUE(areAllObjsUpdated());
 }
 
 INSTANTIATE_TEST_CASE_P(Default, EventFixture,
