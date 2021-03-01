@@ -31,14 +31,14 @@ namespace RoomEventTest
     };
 
     template <int event_type>
-    class EventFixture : public testing::Test, public testing::WithParamInterface<int>
+    class RoomEventFixture : public testing::Test, public testing::WithParamInterface<int>
     {
     public:
         Game *game;
         TestRoom *room;
         SDL_Surface *surface;
 
-        EventFixture()
+        RoomEventFixture()
         {
             this->surface = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
             SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(this->surface);
@@ -58,7 +58,7 @@ namespace RoomEventTest
             game->update();
         }
 
-        ~EventFixture()
+        ~RoomEventFixture()
         {
             SDL_FreeSurface(this->surface);
             delete this->game;
@@ -69,7 +69,7 @@ namespace RoomEventTest
 using namespace RoomEventTest;
 
 #define TEST_EVENT(EVENT_ENUM, EVENT_FIXTURE_NAME, EVENT_PROPERTY, TEST_NAME) \
-    struct EVENT_FIXTURE_NAME : public EventFixture<EVENT_ENUM>               \
+    struct EVENT_FIXTURE_NAME : public RoomEventFixture<EVENT_ENUM>           \
     {                                                                         \
     };                                                                        \
     TEST_P(EVENT_FIXTURE_NAME, TEST_NAME)                                     \
@@ -79,8 +79,8 @@ using namespace RoomEventTest;
     INSTANTIATE_TEST_CASE_P(Default, EVENT_FIXTURE_NAME,                      \
                             testing::Values(1, 2, 3, 4, 5));
 
-TEST_EVENT(SDL_KEYDOWN, KeyDownFixture, keyDownCount, room_should_handle_keydown_events)
-TEST_EVENT(SDL_KEYUP, KeyUpFixture, keyUpCount, room_should_handle_keyup_events)
-TEST_EVENT(SDL_MOUSEMOTION, MouseMotionFixture, mouseMotionCount, room_should_handle_mousemotion_events)
-TEST_EVENT(SDL_MOUSEBUTTONDOWN, MouseButtonDownFixture, mouseButtonDownCount, room_should_handle_mousebuttondown_events)
-TEST_EVENT(SDL_MOUSEBUTTONUP, MouseButtonUpFixture, mouseButtonUpCount, room_should_handle_mousebuttonup_events)
+TEST_EVENT(SDL_KEYDOWN, RoomEvent_KeyDownFixture, keyDownCount, room_should_handle_keydown_events)
+TEST_EVENT(SDL_KEYUP, RoomEvent_KeyUpFixture, keyUpCount, room_should_handle_keyup_events)
+TEST_EVENT(SDL_MOUSEMOTION, RoomEvent_MouseMotionFixture, mouseMotionCount, room_should_handle_mousemotion_events)
+TEST_EVENT(SDL_MOUSEBUTTONDOWN, RoomEvent_MouseButtonDownFixture, mouseButtonDownCount, room_should_handle_mousebuttondown_events)
+TEST_EVENT(SDL_MOUSEBUTTONUP, RoomEvent_MouseButtonUpFixture, mouseButtonUpCount, room_should_handle_mousebuttonup_events)

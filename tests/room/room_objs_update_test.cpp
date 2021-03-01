@@ -18,7 +18,7 @@ namespace RoomObjsUpdateTest
         void update(SDL_Renderer *) override { this->updated = true; }
     };
 
-    class EventFixture : public testing::Test, public testing::WithParamInterface<int>
+    class RoomObjsUpdateFixture : public testing::Test, public testing::WithParamInterface<int>
     {
     private:
         std::vector<UpdateFlagObj *> *updateFlagObjs;
@@ -28,7 +28,7 @@ namespace RoomObjsUpdateTest
         Room *room;
         SDL_Surface *surface;
 
-        EventFixture()
+        RoomObjsUpdateFixture()
         {
             this->updateFlagObjs = new std::vector<UpdateFlagObj *>();
 
@@ -44,7 +44,7 @@ namespace RoomObjsUpdateTest
             this->game->update();
         }
 
-        ~EventFixture()
+        ~RoomObjsUpdateFixture()
         {
             SDL_FreeSurface(this->surface);
             delete this->game;
@@ -79,10 +79,10 @@ namespace RoomObjsUpdateTest
 
 using namespace RoomObjsUpdateTest;
 
-TEST_P(EventFixture, room_objs_update_test)
+TEST_P(RoomObjsUpdateFixture, room_objs_update_test)
 {
     EXPECT_TRUE(areAllObjsUpdated());
 }
 
-INSTANTIATE_TEST_CASE_P(Default, EventFixture,
+INSTANTIATE_TEST_CASE_P(Default, RoomObjsUpdateFixture,
                         testing::Values(1, 2, 3, 4, 5));
