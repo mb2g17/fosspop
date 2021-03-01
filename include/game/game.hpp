@@ -12,6 +12,7 @@ class Game
 
 public:
     Game();
+    Game(SDL_Renderer *);
     ~Game();
     void update();
     void setCurrentRoom(Room *);

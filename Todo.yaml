@@ -6,7 +6,6 @@ Todo:
             - should run
             - should update room on game update
         Room:
-            - should update BG colour on update
         Obj:
             - should load given asset
             - should draw obj at position

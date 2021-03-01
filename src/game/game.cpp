@@ -16,6 +16,11 @@ Game::Game()
     this->renderer = renderer;
 }
 
+Game::Game(SDL_Renderer *renderer)
+{
+    this->renderer = renderer;
+}
+
 Game::~Game()
 {
     SDL_DestroyRenderer(this->renderer);
