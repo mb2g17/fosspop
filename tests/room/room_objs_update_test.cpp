@@ -26,12 +26,16 @@ namespace RoomObjsUpdateTest
     public:
         Game *game;
         Room *room;
+        SDL_Surface *surface;
 
         EventFixture()
         {
             this->updateFlagObjs = new std::vector<UpdateFlagObj *>();
 
-            this->game = new Game();
+            this->surface = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
+            SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(this->surface);
+
+            this->game = new Game(renderer);
             this->room = new Room();
             game->setCurrentRoom(this->room);
 
@@ -42,6 +46,7 @@ namespace RoomObjsUpdateTest
 
         ~EventFixture()
         {
+            SDL_FreeSurface(this->surface);
             delete this->game;
             delete this->updateFlagObjs;
         }

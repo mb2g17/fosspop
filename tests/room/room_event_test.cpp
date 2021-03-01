@@ -36,10 +36,14 @@ namespace RoomEventTest
     public:
         Game *game;
         TestRoom *room;
+        SDL_Surface *surface;
 
         EventFixture()
         {
-            this->game = new Game();
+            this->surface = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
+            SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(this->surface);
+
+            this->game = new Game(renderer);
             this->room = new TestRoom();
             game->setCurrentRoom(this->room);
 
@@ -56,6 +60,7 @@ namespace RoomEventTest
 
         ~EventFixture()
         {
+            SDL_FreeSurface(this->surface);
             delete this->game;
         }
     };
