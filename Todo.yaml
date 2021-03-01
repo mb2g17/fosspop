@@ -3,8 +3,6 @@ Todo:
         - Make Obj more general and add a SpriteObj
     Tests:
         Game:
-            - should run
-            - should update room on game update
         Room:
         Obj:
             - should load given asset
