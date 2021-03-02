@@ -1,7 +1,6 @@
 #include <SDL2/SDL.h>
 
 #include "game/game.hpp"
-#include "game/room.hpp"
 #include "game/obj.hpp"
 
 #include "gtest/gtest.h"
