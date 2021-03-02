@@ -40,3 +40,13 @@ void Obj::setPos(int x, int y)
     this->dest.x = x;
     this->dest.y = y;
 }
+
+int Obj::getWidth()
+{
+    return this->dest.w;
+}
+
+int Obj::getHeight()
+{
+    return this->dest.h;
+}

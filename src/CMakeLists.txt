@@ -26,6 +26,6 @@ target_link_libraries(FossPop PUBLIC Game Test)
 # Set output as JS file
 set(CMAKE_EXECUTABLE_SUFFIX ".js")
 
-# Set up files
+# Set up assets
 add_custom_command(TARGET FossPop PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../assets ${PROJECT_BINARY_DIR}/assets)
 add_custom_command(TARGET FossPop POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/../public/* ${PROJECT_BINARY_DIR}/dist)
