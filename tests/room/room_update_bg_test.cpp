@@ -43,7 +43,7 @@ namespace RoomUpdateBgTest
 
 using namespace RoomUpdateBgTest;
 
-TEST_P(RoomUpdateBgTestFixture, room_update_bg_test)
+TEST_P(RoomUpdateBgTestFixture, room_should_update_bg)
 {
     SDL_Color expectedColor = GetParam();
 

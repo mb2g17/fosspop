@@ -79,7 +79,7 @@ namespace RoomObjsUpdateTest
 
 using namespace RoomObjsUpdateTest;
 
-TEST_P(RoomObjsUpdateFixture, room_objs_update_test)
+TEST_P(RoomObjsUpdateFixture, room_should_update_objs)
 {
     EXPECT_TRUE(areAllObjsUpdated());
 }
