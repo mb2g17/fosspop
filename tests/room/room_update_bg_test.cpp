@@ -22,7 +22,7 @@ namespace RoomUpdateBgTest
         {
             const SDL_Color color = GetParam();
 
-            this->surface = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
+            this->surface = SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, SDL_PIXELFORMAT_RGBA32);
             SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(this->surface);
 
             this->game = new Game(renderer);
@@ -38,6 +38,12 @@ namespace RoomUpdateBgTest
             SDL_FreeSurface(this->surface);
             delete this->game;
         }
+
+        Uint32 getPixel()
+        {
+            auto pixels = (Uint32 *)this->surface->pixels;
+            return pixels[0];
+        }
     };
 }
 
@@ -47,13 +53,21 @@ TEST_P(RoomUpdateBgTestFixture, room_should_update_bg)
 {
     SDL_Color expectedColor = GetParam();
 
-    SDL_Color actualColor;
-    SDL_GetRenderDrawColor(game->getRenderer(), &actualColor.r, &actualColor.g, &actualColor.b, &actualColor.a);
+    /*SDL_Color actualColor;
+    SDL_GetRenderDrawColor(game->getRenderer(), &actualColor.r, &actualColor.g, &actualColor.b, &actualColor.a);*/
 
+    Uint32 expectedPixel = SDL_MapRGBA(surface->format, expectedColor.r, expectedColor.g, expectedColor.b, expectedColor.a);
+
+    Uint32 actualPixel = getPixel();
+
+    EXPECT_EQ(expectedPixel, actualPixel);
+
+    /*
     EXPECT_EQ(expectedColor.r, actualColor.r);
     EXPECT_EQ(expectedColor.g, actualColor.g);
     EXPECT_EQ(expectedColor.b, actualColor.b);
     EXPECT_EQ(expectedColor.a, actualColor.a);
+    */
 }
 
 INSTANTIATE_TEST_CASE_P(Default, RoomUpdateBgTestFixture,
