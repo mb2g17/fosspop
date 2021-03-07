@@ -21,19 +21,7 @@ namespace ObjDrawPosTest
 
         ObjDrawPosFixture()
         {
-            Uint32 rmask, gmask, bmask, amask;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            rmask = 0xff000000;
-            gmask = 0x00ff0000;
-            bmask = 0x0000ff00;
-            amask = 0x000000ff;
-#else
-            rmask = 0x000000ff;
-            gmask = 0x0000ff00;
-            bmask = 0x00ff0000;
-            amask = 0xff000000;
-#endif
-            this->surface = SDL_CreateRGBSurface(0, 8, 8, 32, rmask, gmask, bmask, amask);
+            this->surface = SDL_CreateRGBSurfaceWithFormat(0, 8, 8, 32, SDL_PIXELFORMAT_RGBA32);
 
             SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(this->surface);
 
@@ -73,22 +61,19 @@ using namespace ObjDrawPosTest;
 
 TEST_F(ObjDrawPosFixture, obj_should_draw_at_position)
 {
-    Uint32 red, green, blue, yellow;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    red = 0xff0000ff;
-    green = 0x00ff00ff;
-    blue = 0x0000ffff;
-    yellow = 0xffff00ff;
-#else
-    red = 0xff0000ff;
-    green = 0xff00ff00;
-    blue = 0xffff0000;
-    yellow = 0xff00ffff;
-#endif
+    SDL_Color red = {.r = 255, .g = 0, .b = 0, .a = 255},
+              blue = {.r = 0, .g = 0, .b = 255, .a = 255},
+              green = {.r = 0, .g = 255, .b = 0, .a = 255},
+              yellow = {.r = 255, .g = 255, .b = 0, .a = 255};
+
+    Uint32 redPixel = SDL_MapRGBA(surface->format, red.r, red.g, red.b, red.a),
+           greenPixel = SDL_MapRGBA(surface->format, green.r, green.g, green.b, green.a),
+           bluePixel = SDL_MapRGBA(surface->format, blue.r, blue.g, blue.b, blue.a),
+           yellowPixel = SDL_MapRGBA(surface->format, yellow.r, yellow.g, yellow.b, yellow.a);
 
     PixelData pixelData = getPixels();
-    EXPECT_EQ(pixelData.topleft, red);
-    EXPECT_EQ(pixelData.topright, green);
-    EXPECT_EQ(pixelData.bottomleft, blue);
-    EXPECT_EQ(pixelData.bottomright, yellow);
+    EXPECT_EQ(pixelData.topleft, redPixel);
+    EXPECT_EQ(pixelData.topright, greenPixel);
+    EXPECT_EQ(pixelData.bottomleft, bluePixel);
+    EXPECT_EQ(pixelData.bottomright, yellowPixel);
 }
