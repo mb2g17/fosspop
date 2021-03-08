@@ -17,7 +17,10 @@ Obj::Obj(SDL_Renderer *renderer, const char *path)
         SDL_FreeSurface(image);
     }
     else
+    {
         this->tex = NULL;
+        this->dest = {.x = 0, .y = 0, .w = 0, .h = 0};
+    }
 }
 
 Obj::~Obj()

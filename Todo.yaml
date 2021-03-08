@@ -5,5 +5,4 @@ Todo:
         Game:
         Room:
         Obj:
-            - should not load any texture (null ptr), and rect should all be zeroes, if renderer ptr is NULL in constructor
         Misc:
