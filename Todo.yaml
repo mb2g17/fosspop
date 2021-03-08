@@ -4,7 +4,6 @@ Todo:
     Tests:
         Game:
         Room:
-            - update "room should update bg" to check pixels on software renderer
         Obj:
             - should not load any texture (null ptr), and rect should all be zeroes, if renderer ptr is NULL in constructor
         Misc:
