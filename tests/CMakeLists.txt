@@ -11,7 +11,7 @@ set(SOURCES ${TEST_SOURCES})
 add_executable(${BINARY} ${TEST_SOURCES})
 
 # Links libraries to tests
-target_link_libraries(${BINARY} gtest Game Test ${PROJECT_LIBS})
+target_link_libraries(${BINARY} gtest Game Test Grid ${PROJECT_LIBS})
 
 # Set up assets
 add_custom_command(TARGET FossPop_Tests PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/tests/assets_test ${PROJECT_BINARY_DIR}/assets)

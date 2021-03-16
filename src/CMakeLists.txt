@@ -16,12 +16,13 @@ include_directories(../include)
 # Adds libraries
 add_subdirectory(game)
 add_subdirectory(test)
+add_subdirectory(grid)
 
 # Adds executable
 add_executable(FossPop main.cpp)
 
 # Links libraries with main executable
-target_link_libraries(FossPop PUBLIC Game Test)
+target_link_libraries(FossPop PUBLIC Game Test Grid)
 
 # Set output as JS file
 set(CMAKE_EXECUTABLE_SUFFIX ".js")

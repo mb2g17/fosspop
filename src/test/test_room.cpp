@@ -1,3 +1,5 @@
+#include <random>
+
 #include "test/test_room.hpp"
 
 TestRoom::TestRoom(SDL_Renderer *renderer)
@@ -15,11 +17,21 @@ TestRoom::TestRoom(SDL_Renderer *renderer)
         "assets/red.fw.png",
         "assets/yellow.fw.png"};
 
-    for (int i = 0; i < 7; i++)
+    // Prepares randomness
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(0, 6);
+
+    for (int row = 0; row < 7; row++)
     {
-        Obj *obj = new Obj(renderer, filenames[i]);
-        obj->setPos(50 * i, 50 * i);
-        this->addObj(obj);
+        for (int col = 0; col < 8; col++)
+        {
+            int i = uni(rng);
+
+            Obj *obj = new Obj(renderer, filenames[i]);
+            obj->setPos(70 * col, 70 * row);
+            this->addObj(obj);
+        }
     }
 }
 

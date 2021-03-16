@@ -9,6 +9,7 @@ include_directories(include)
 # Adds project and test cases
 add_subdirectory(src/game)
 add_subdirectory(src/test)
+add_subdirectory(src/grid)
 add_subdirectory(tests)
 
 # Adds googletest
