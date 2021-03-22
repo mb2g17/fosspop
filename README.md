@@ -1,5 +1,7 @@
 # FossPop
 
+[![Build Status](https://www.travis-ci.com/mb2g17/fosspop.svg?branch=master)](https://www.travis-ci.com/mb2g17/fosspop)
+
 ## Table of contents
 
 -   [General Info](#general-info)
