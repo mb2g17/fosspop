@@ -1,9 +1,12 @@
 #pragma once
 
 #include "game/room.hpp"
+#include "grid/grid.hpp"
 
 class TestRoom : public Room
 {
+    Grid *grid;
+
 public:
     TestRoom(SDL_Renderer *);
 

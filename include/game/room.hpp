@@ -6,6 +6,7 @@
 
 class Room
 {
+protected:
     std::vector<Obj *> *objects;
     SDL_Color bgColor = {.r = 0xFF, .g = 0xFF, .b = 0xFF, .a = 0xFF};
 
