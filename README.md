@@ -46,7 +46,14 @@ make all
 
 ## Docker
 
-Coming soon
+### Project
+
+### Unit Tests
+
+```shell
+docker build -t fosspop-tests -f Dockerfile.tests .
+docker run fosspop-tests
+```
 
 # Images
 
