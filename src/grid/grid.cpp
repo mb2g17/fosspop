@@ -50,6 +50,57 @@ void Grid::swap(int row1, int col1, int row2, int col2)
         throw std::runtime_error("Must be initialised first");
 
     // Swaps
+    // If we're swapping rows
+    if (row1 != row2)
+    {
+        // If src
+        //     V
+        //    dst
+        if (row2 > row1)
+        {
+            for (int row = row1; row < row2; row++)
+            {
+                switchTiles(row, col1, row + 1, col2);
+            }
+        }
+
+        // If dst
+        //     ^
+        //    src
+        else if (row1 > row2)
+        {
+            for (int row = row1; row > row2; row--)
+            {
+                switchTiles(row - 1, col1, row, col2);
+            }
+        }
+    }
+
+    // If we're swapping cols
+    else
+    {
+        // If src --> dst
+        if (col2 > col1)
+        {
+            for (int col = col1; col < col2; col++)
+            {
+                switchTiles(row1, col, row2, col + 1);
+            }
+        }
+
+        // If dst <-- src
+        else if (col1 > col2)
+        {
+            for (int col = col1; col > col2; col--)
+            {
+                switchTiles(row1, col - 1, row2, col);
+            }
+        }
+    }
+}
+
+void Grid::switchTiles(int row1, int col1, int row2, int col2)
+{
     int oldTile1 = this->getTile(row1, col1);
     int oldTile2 = this->getTile(row2, col2);
     this->gridArray[row1][col1] = oldTile2;

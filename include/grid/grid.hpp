@@ -20,5 +20,6 @@ public:
     void swap(int, int, int, int);
 
 protected:
+    void switchTiles(int, int, int, int);
     bool isPositionInvalid(int, int);
 };
