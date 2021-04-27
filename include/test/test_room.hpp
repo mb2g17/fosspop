@@ -2,10 +2,12 @@
 
 #include "game/room.hpp"
 #include "grid/grid.hpp"
+#include "grid/grid_obj.hpp"
 
 class TestRoom : public Room
 {
     Grid *grid;
+    GridObj *gridObj;
 
 public:
     TestRoom(SDL_Renderer *);

@@ -5,6 +5,10 @@
 
 #include "game/obj.hpp"
 
+Obj::Obj() : Obj(NULL, NULL)
+{
+}
+
 Obj::Obj(SDL_Renderer *renderer, const char *path)
 {
     if (renderer != NULL)
@@ -42,6 +46,16 @@ void Obj::setPos(int x, int y)
 {
     this->dest.x = x;
     this->dest.y = y;
+}
+
+int Obj::getX()
+{
+    return this->dest.x;
+}
+
+int Obj::getY()
+{
+    return this->dest.y;
 }
 
 int Obj::getWidth()

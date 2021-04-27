@@ -1,6 +1,7 @@
 #include <random>
 
 #include "test/test_room.hpp"
+#include "grid/grid_obj.hpp"
 
 SDL_Renderer *my_renderer;
 
@@ -11,6 +12,13 @@ TestRoom::TestRoom(SDL_Renderer *renderer)
     // Sets bg color
     this->setBgColor({.r = 0xBF, .g = 0x00, .b = 0xFF, .a = 0xFF});
 
+    // Adds grid
+    this->gridObj = new GridObj(renderer);
+    this->gridObj->setPos(50, 50);
+    this->addObj(this->gridObj);
+    // ---
+
+    /*
     // Sets grid
     grid = new Grid();
     grid->init();
@@ -35,7 +43,7 @@ TestRoom::TestRoom(SDL_Renderer *renderer)
             obj->setPos(70 * col, 70 * row);
             this->addObj(obj);
         }
-    }
+    }*/
 }
 
 void TestRoom::onKeyDown(const SDL_KeyboardEvent *keyboardEvent)
@@ -52,20 +60,29 @@ unsigned int x, y;
 
 void TestRoom::onMouseMotion(const SDL_MouseMotionEvent *mouseMotionEvent)
 {
-    /*printf("mouse motion x: %d, y: %d, xrel: %d, yrel: %d\n", mouseMotionEvent->x, mouseMotionEvent->y, mouseMotionEvent->xrel, mouseMotionEvent->yrel);
+    //printf("mouse motion x: %d, y: %d, xrel: %d, yrel: %d\n", mouseMotionEvent->x, mouseMotionEvent->y, mouseMotionEvent->xrel, mouseMotionEvent->yrel);
+    SDL_Rect mousePos{
+        .x = mouseMotionEvent->x,
+        .y = mouseMotionEvent->y};
+    this->gridObj->updateMousePos(mousePos);
 
     if (mouseMotionEvent->state & SDL_BUTTON_LMASK)
     {
-        printf("Dragging with left mouse button\n");
-    }*/
+        //printf("Dragging with left mouse button\n");
+    }
 }
 
 void TestRoom::onMouseButtonDown(const SDL_MouseButtonEvent *mouseButtonEvent)
 {
     if (mouseButtonEvent->button == SDL_BUTTON_LEFT)
     {
+        auto dragX = (mouseButtonEvent->x - this->gridObj->getX()) / 70;
+        auto dragY = (mouseButtonEvent->y - this->gridObj->getY()) / 70;
+        this->gridObj->startDrag(dragY, dragX);
+
         x = mouseButtonEvent->x / 70;
         y = mouseButtonEvent->y / 70;
+
         printf("DOWN X: %d, Y: %d\n", x, y);
     }
     /*
@@ -90,6 +107,8 @@ void TestRoom::onMouseButtonDown(const SDL_MouseButtonEvent *mouseButtonEvent)
 
 void TestRoom::onMouseButtonUp(const SDL_MouseButtonEvent *mouseButtonEvent)
 {
+    this->gridObj->endDrag();
+    /*
     if (mouseButtonEvent->button == SDL_BUTTON_LEFT)
     {
         unsigned int newX = mouseButtonEvent->x / 70;
@@ -122,7 +141,8 @@ void TestRoom::onMouseButtonUp(const SDL_MouseButtonEvent *mouseButtonEvent)
                 this->addObj(obj);
             }
         }
-    }
+    }*/
+
     /*const char *buttonStr = NULL;
     switch (mouseButtonEvent->button)
     {

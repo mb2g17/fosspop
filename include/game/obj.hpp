@@ -10,11 +10,14 @@ class Obj
     SDL_Rect dest;
 
 public:
+    Obj();
     Obj(SDL_Renderer *, const char *);
     ~Obj();
     virtual void update(SDL_Renderer *);
     void setPos(int x, int y);
 
+    int getX();
+    int getY();
     int getWidth();
     int getHeight();
 
