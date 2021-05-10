@@ -3,6 +3,19 @@
 
 #include "grid/grid.hpp"
 
+Grid::Grid()
+{
+}
+
+Grid::Grid(const Grid *grid)
+{
+    for (int row = 0; row < 7; row++)
+        for (int col = 0; col < 8; col++)
+            this->gridArray[row][col] = grid->gridArray[row][col];
+
+    initialised = true;
+}
+
 int Grid::getTile(int row, int col)
 {
     // If we're swapping invalid positions
@@ -110,4 +123,56 @@ void Grid::switchTiles(int row1, int col1, int row2, int col2)
 bool Grid::isPositionInvalid(int row, int col)
 {
     return col < 0 || col > 8 || row < 0 || row > 7;
+}
+
+bool Grid::isCombinationHere(int row, int col)
+{
+    // Get current tile
+    auto thisTile = gridArray[row][col];
+
+    // Remembers how many same-time neighbours there are
+    int noOfSameTileNeighbours = 0;
+
+    // Checks left side
+    for (int i = col; i >= 0; i--)
+    {
+        if (gridArray[row][i] != thisTile)
+            break;
+        else
+            noOfSameTileNeighbours++;
+    }
+
+    // Checks right side
+    for (int i = col; i <= 7; i++)
+    {
+        if (gridArray[row][i] != thisTile)
+            break;
+        else
+            noOfSameTileNeighbours++;
+    }
+
+    // Checks top side
+    for (int i = row; i >= 0; i--)
+    {
+        if (gridArray[i][col] != thisTile)
+            break;
+        else
+            noOfSameTileNeighbours++;
+    }
+
+    // Checks bottom side
+    for (int i = row; i <= 6; i++)
+    {
+        if (gridArray[i][col] != thisTile)
+            break;
+        else
+            noOfSameTileNeighbours++;
+    }
+
+    // Offset
+    noOfSameTileNeighbours -= 4;
+
+    std::cout << "Number of same tile neighbours: " << noOfSameTileNeighbours << std::endl;
+
+    return noOfSameTileNeighbours >= 2;
 }

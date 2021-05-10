@@ -124,8 +124,21 @@ void GridObj::endDrag()
     auto endCol = getMouseCol();
     this->dragging = false;
 
-    if (startRow == endRow || startCol == endCol)
-        grid->swap(startRow, startCol, endRow, endCol);
+    auto isNotDiagonal = startRow == endRow || startCol == endCol;
+    if (isNotDiagonal)
+    {
+        bool willMakeCombination = false;
+
+        Grid *checkGrid = new Grid(this->grid);
+        checkGrid->swap(startRow, startCol, endRow, endCol);
+        willMakeCombination = checkGrid->isCombinationHere(endRow, endCol);
+
+        delete checkGrid;
+        checkGrid = NULL;
+
+        if (willMakeCombination)
+            grid->swap(startRow, startCol, endRow, endCol);
+    }
 }
 
 int GridObj::getMouseRow()

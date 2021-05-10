@@ -14,10 +14,15 @@ private:
         {-1, -1, -1, -1, -1, -1, -1, -1}};
 
 public:
+    Grid();
+    Grid(const Grid *);
+
     void init();
     void init(int[7][8]);
     int getTile(int, int);
     void swap(int, int, int, int);
+
+    bool isCombinationHere(int, int);
 
 protected:
     void switchTiles(int, int, int, int);
