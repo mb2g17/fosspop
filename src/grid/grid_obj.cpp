@@ -124,7 +124,8 @@ void GridObj::endDrag()
     auto endCol = getMouseCol();
     this->dragging = false;
 
-    grid->swap(startRow, startCol, endRow, endCol);
+    if (startRow == endRow || startCol == endCol)
+        grid->swap(startRow, startCol, endRow, endCol);
 }
 
 int GridObj::getMouseRow()
