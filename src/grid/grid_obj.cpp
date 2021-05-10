@@ -38,13 +38,44 @@ void GridObj::update(SDL_Renderer *renderer)
             if (dragging && row == dragRow && col == dragCol)
                 continue;
 
-            // Get this tile
+            // Get this tile's texture ID
             int i = grid->getTile(row, col);
 
             // Position of this tile
+            auto x = 70 * col + this->getX();
+            auto y = 70 * row + this->getY();
+
+            // Offset it, depending on dragging
+            if (dragging)
+            {
+                auto currentRow = getMouseRow();
+                auto currentCol = getMouseCol();
+
+                // If we should shift this left
+                if (dragRow == row && currentRow == row &&
+                    dragCol < col && currentCol >= col)
+                    x -= 70;
+
+                // If we should shift this right
+                if (dragRow == row && currentRow == row &&
+                    dragCol > col && currentCol <= col)
+                    x += 70;
+
+                // If we should shift this up
+                if (dragCol == col && currentCol == col &&
+                    dragRow < row && currentRow >= row)
+                    y -= 70;
+
+                // If we should shift this down
+                if (dragCol == col && currentCol == col &&
+                    dragRow > row && currentRow <= row)
+                    y += 70;
+            }
+
+            // Set position
             SDL_Rect pos{
-                .x = 70 * col + this->getX(),
-                .y = 70 * row + this->getY(),
+                .x = x,
+                .y = y,
                 .w = 64,
                 .h = 64};
 
@@ -53,9 +84,10 @@ void GridObj::update(SDL_Renderer *renderer)
         }
     }
 
-    // Draws dragging tile
+    // Dragging logic if we're dragging
     if (this->dragging)
     {
+        // Draws dragging tile
         SDL_Rect dragPos{
             .x = this->mousePos.x - 32,
             .y = this->mousePos.y - 32,
