@@ -24,6 +24,10 @@ public:
     void update(SDL_Renderer *) override;
     void updateMousePos(SDL_Rect);
 
-    void startDrag(int x, int y);
+    void startDrag();
     void endDrag();
+
+private:
+    int getMouseRow();
+    int getMouseCol();
 };

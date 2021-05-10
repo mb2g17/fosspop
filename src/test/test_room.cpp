@@ -56,8 +56,6 @@ void TestRoom::onKeyUp(const SDL_KeyboardEvent *keyboardEvent)
     printf("key up: %s\n", SDL_GetKeyName(keyboardEvent->keysym.sym));
 }
 
-unsigned int x, y;
-
 void TestRoom::onMouseMotion(const SDL_MouseMotionEvent *mouseMotionEvent)
 {
     //printf("mouse motion x: %d, y: %d, xrel: %d, yrel: %d\n", mouseMotionEvent->x, mouseMotionEvent->y, mouseMotionEvent->xrel, mouseMotionEvent->yrel);
@@ -76,14 +74,7 @@ void TestRoom::onMouseButtonDown(const SDL_MouseButtonEvent *mouseButtonEvent)
 {
     if (mouseButtonEvent->button == SDL_BUTTON_LEFT)
     {
-        auto dragX = (mouseButtonEvent->x - this->gridObj->getX()) / 70;
-        auto dragY = (mouseButtonEvent->y - this->gridObj->getY()) / 70;
-        this->gridObj->startDrag(dragY, dragX);
-
-        x = mouseButtonEvent->x / 70;
-        y = mouseButtonEvent->y / 70;
-
-        printf("DOWN X: %d, Y: %d\n", x, y);
+        this->gridObj->startDrag();
     }
     /*
     const char *buttonStr = NULL;

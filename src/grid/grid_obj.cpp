@@ -70,8 +70,11 @@ void GridObj::updateMousePos(SDL_Rect mousePos)
     this->mousePos = mousePos;
 }
 
-void GridObj::startDrag(int row, int col)
+void GridObj::startDrag()
 {
+    auto row = getMouseRow();
+    auto col = getMouseCol();
+
     this->dragging = true;
     this->dragRow = row;
     this->dragCol = col;
@@ -83,5 +86,23 @@ void GridObj::startDrag(int row, int col)
 
 void GridObj::endDrag()
 {
+    auto startRow = dragRow;
+    auto startCol = dragCol;
+    auto endRow = getMouseRow();
+    auto endCol = getMouseCol();
     this->dragging = false;
+
+    grid->swap(startRow, startCol, endRow, endCol);
+}
+
+int GridObj::getMouseRow()
+{
+    auto row = (mousePos.y - getY()) / 70;
+    return row;
+}
+
+int GridObj::getMouseCol()
+{
+    auto col = (mousePos.x - getX()) / 70;
+    return col;
 }
