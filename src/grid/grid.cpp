@@ -1,5 +1,8 @@
 #include <iostream>
+#include <algorithm>
+#include <array>
 #include <random>
+#include <chrono>
 
 #include "grid/grid.hpp"
 
@@ -118,6 +121,42 @@ void Grid::switchTiles(int row1, int col1, int row2, int col2)
     int oldTile2 = this->getTile(row2, col2);
     this->gridArray[row1][col1] = oldTile2;
     this->gridArray[row2][col2] = oldTile1;
+
+    std::cout << "Switched tiles" << std::endl;
+}
+
+void Grid::popTile(int row, int col)
+{
+    // Pops tile
+    this->gridArray[row][col] = -1;
+
+    // Moves all tiles down
+    for (int i = row; i > 0; i--)
+    {
+        this->gridArray[i][col] = this->gridArray[i - 1][col];
+    }
+
+    // Select random new tile at the top, such that it won't make a combination
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(0, 6);
+
+    this->gridArray[0][col] = uni(rng);
+    this->setTileWithoutMakingCombination(0, col);
+}
+
+void Grid::setTileWithoutMakingCombination(int row, int col)
+{
+    // Shuffle tiles
+    std::array<int, 6> tiles{1, 2, 3, 4, 5, 6};
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    shuffle(tiles.begin(), tiles.end(), std::default_random_engine(seed));
+    for (int &tile : tiles)
+    {
+        this->gridArray[0][col] = tile;
+        if (!this->isCombinationHere(0, col))
+            break;
+    }
 }
 
 bool Grid::isPositionInvalid(int row, int col)

@@ -38,6 +38,10 @@ void GridObj::update(SDL_Renderer *renderer)
             if (dragging && row == dragRow && col == dragCol)
                 continue;
 
+            // If invalid tile, do not render
+            if (grid->getTile(row, col) == -1)
+                continue;
+
             // Get this tile's texture ID
             int i = grid->getTile(row, col);
 
@@ -137,7 +141,54 @@ void GridObj::endDrag()
         checkGrid = NULL;
 
         if (willMakeCombination)
+        {
             grid->swap(startRow, startCol, endRow, endCol);
+
+            // Pop combination at where we just dragged on to
+            this->popCombination(endRow, endCol);
+        }
+    }
+}
+
+void GridObj::popCombination(int row, int col)
+{
+    // Get tile type we need to pop
+    int tileType = this->grid->getTile(row, col);
+
+    this->grid->popTile(row, col);
+
+    // Pop above
+    while (this->grid->getTile(row, col) == tileType)
+        this->grid->popTile(row, col);
+
+    // Pop below (if we're not already at the bottom)
+    if (row < 6)
+    {
+        for (int i = row + 1; i <= 6; i++)
+            if (this->grid->getTile(i, col) == tileType)
+                this->grid->popTile(i, col);
+            else
+                break;
+    }
+
+    // Pop left (if we're not already at the far left)
+    if (col > 0)
+    {
+        for (int i = col - 1; i >= 0; i--)
+            if (this->grid->getTile(row, i) == tileType)
+                this->grid->popTile(row, i);
+            else
+                break;
+    }
+
+    // Pop right (if we're not already at the far right)
+    if (col < 7)
+    {
+        for (int i = col + 1; i <= 7; i++)
+            if (this->grid->getTile(row, i) == tileType)
+                this->grid->popTile(row, i);
+            else
+                break;
     }
 }
 
