@@ -116,13 +116,14 @@ void GridObj::update(SDL_Renderer *renderer)
             FallingTile tile = *iter;
 
             // Draws tile
-            SDL_Rect pos = SDL_Rect{.x = tile.X, .y = tile.currentY, .w = 64, .h = 64};
+            SDL_Rect pos = SDL_Rect{.x = tile.X, .y = (int)tile.currentY, .w = 64, .h = 64};
             SDL_RenderCopy(renderer, this->tileTextures[tile.tile], NULL, &pos);
 
             // Move tile, if it should be moved
             if (tile.currentY < tile.endingY)
             {
-                iter->currentY += 5;
+                iter->currentY += iter->velocity;
+                iter->velocity += iter->accel;
                 thereExistsMovingTiles = true;
             }
 
@@ -305,8 +306,10 @@ void GridObj::animate()
                 FallingTile tile = FallingTile{
                     .tile = tileNumber,
                     .X = 50 + 70 * col,
-                    .currentY = 50 + 70 * row,
-                    .endingY = 50 + 70 * (row + noOfSpaces)};
+                    .currentY = (float)(50 + 70 * row),
+                    .endingY = 50 + 70 * (row + noOfSpaces),
+                    .velocity = 0,
+                    .accel = 0.5f};
                 fallingTiles->push_back(tile);
 
                 // Removes it from actual graph
@@ -342,8 +345,10 @@ void GridObj::animate()
                 FallingTile tile = FallingTile{
                     .tile = tileNumberPostGrid,
                     .X = 50 + 70 * col,
-                    .currentY = 50 - 70 * (noOfTopSpaces - row),
-                    .endingY = 50 + 70 * row};
+                    .currentY = (float)(50 - 70 * (noOfTopSpaces - row)),
+                    .endingY = 50 + 70 * row,
+                    .velocity = 0,
+                    .accel = 0.5f};
                 fallingTiles->push_back(tile);
             }
             else

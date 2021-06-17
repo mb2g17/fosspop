@@ -14,9 +14,11 @@ struct Position
 struct FallingTile
 {
     int tile;
-    int currentY;
+    float currentY;
     int X;
     int endingY;
+    float velocity;
+    float accel;
 };
 
 class GridObj : public Obj
