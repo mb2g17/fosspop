@@ -26,7 +26,11 @@ public:
     bool isCombinationHere(int, int);
     void setTileWithoutMakingCombination(int, int);
 
+    void moveAllTilesDown();
+    void fillInSpaces();
+
 protected:
     void switchTiles(int, int, int, int);
     bool isPositionInvalid(int, int);
+    void moveTilesDown(int col);
 };

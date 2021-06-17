@@ -131,10 +131,7 @@ void Grid::popTile(int row, int col)
     this->gridArray[row][col] = -1;
 
     // Moves all tiles down
-    for (int i = row; i > 0; i--)
-    {
-        this->gridArray[i][col] = this->gridArray[i - 1][col];
-    }
+    /*this->moveTilesDown(col);
 
     // Select random new tile at the top, such that it won't make a combination
     std::random_device rd;
@@ -142,7 +139,37 @@ void Grid::popTile(int row, int col)
     std::uniform_int_distribution<int> uni(0, 6);
 
     this->gridArray[0][col] = uni(rng);
-    this->setTileWithoutMakingCombination(0, col);
+    this->setTileWithoutMakingCombination(0, col);*/
+}
+
+void Grid::moveTilesDown(int col)
+{
+    bool moved = true;
+
+    while (moved)
+    {
+        moved = false;
+        for (int i = 0; i < 6; i++)
+        {
+            // If this IS an empty space, do nothing
+            if (this->gridArray[i][col] == -1)
+                continue;
+
+            // If there's an empty space right beneath, take its place (fall)
+            if (this->gridArray[i + 1][col] == -1)
+            {
+                this->gridArray[i + 1][col] = this->gridArray[i][col];
+                this->gridArray[i][col] = -1;
+                moved = true;
+            }
+        }
+    }
+}
+
+void Grid::moveAllTilesDown()
+{
+    for (int col = 0; col < 8; col++)
+        this->moveTilesDown(col);
 }
 
 void Grid::setTileWithoutMakingCombination(int row, int col)
@@ -153,9 +180,21 @@ void Grid::setTileWithoutMakingCombination(int row, int col)
     shuffle(tiles.begin(), tiles.end(), std::default_random_engine(seed));
     for (int &tile : tiles)
     {
-        this->gridArray[0][col] = tile;
-        if (!this->isCombinationHere(0, col))
+        this->gridArray[row][col] = tile;
+        if (!this->isCombinationHere(row, col))
             break;
+    }
+}
+
+void Grid::fillInSpaces()
+{
+    for (auto row = 0; row < 7; row++)
+    {
+        for (auto col = 0; col < 8; col++)
+        {
+            if (this->gridArray[row][col] == -1)
+                this->setTileWithoutMakingCombination(row, col);
+        }
     }
 }
 

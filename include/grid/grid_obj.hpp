@@ -5,6 +5,20 @@
 #include "game/obj.hpp"
 #include "grid/grid.hpp"
 
+struct Position
+{
+    int row;
+    int col;
+};
+
+struct FallingTile
+{
+    int tile;
+    int currentY;
+    int X;
+    int endingY;
+};
+
 class GridObj : public Obj
 {
     Grid *grid;
@@ -14,6 +28,10 @@ class GridObj : public Obj
     int dragRow = -1;
     int dragCol = -1;
     SDL_Texture *dragTex;
+
+    bool falling = false;
+    std::vector<FallingTile> *fallingTiles;
+    Grid *postFallingGrid;
 
     SDL_Rect mousePos;
 
