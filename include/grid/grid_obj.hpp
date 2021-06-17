@@ -48,6 +48,7 @@ public:
     void popCombination(int, int);
 
 private:
+    void animate();
     int getMouseRow();
     int getMouseCol();
 };

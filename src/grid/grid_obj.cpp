@@ -140,6 +140,29 @@ void GridObj::update(SDL_Renderer *renderer)
             // Swap grid to post falling grid
             delete this->grid;
             this->grid = this->postFallingGrid;
+
+            // Look for new combinations
+            bool popped = false;
+            for (auto row = 0; row < 7; row++)
+            {
+                for (auto col = 0; col < 8; col++)
+                {
+                    // If this is empty space, forget it
+                    if (this->grid->getTile(row, col) == -1)
+                        continue;
+
+                    // If there's a combination here, pop it
+                    if (this->grid->isCombinationHere(row, col))
+                    {
+                        this->popCombination(row, col);
+                        popped = true;
+                    }
+                }
+            }
+
+            // If we've popped something, animate again
+            if (popped)
+                this->animate();
         }
     }
 }
@@ -189,87 +212,7 @@ void GridObj::endDrag()
 
             // Pop combination at where we just dragged on to
             this->popCombination(endRow, endCol);
-
-            // Sets up alt grid, to help animate new tiles
-            Grid *altGrid = new Grid(this->grid);
-            altGrid->moveAllTilesDown();
-
-            // Sets up post falling grid
-            this->postFallingGrid = new Grid(this->grid);
-            this->postFallingGrid->moveAllTilesDown();
-            this->postFallingGrid->fillInSpaces();
-
-            // Add items for falling animation OF OLD TILES
-            for (auto col = 0; col < 8; col++)
-            {
-                auto startFalling = false;
-                auto noOfSpaces = 0;
-
-                for (auto row = 6; row >= 0; row--)
-                {
-                    if (this->grid->getTile(row, col) == -1)
-                    {
-                        noOfSpaces++;
-
-                        if (!startFalling)
-                            startFalling = true;
-                    }
-
-                    // If this pos is falling, and there's a tile in the main grid
-                    if (this->grid->getTile(row, col) > -1 && startFalling)
-                    {
-                        // Creates animation for this tile
-                        auto tileNumber = this->grid->getTile(row, col);
-
-                        falling = true;
-                        FallingTile tile = FallingTile{
-                            .tile = tileNumber,
-                            .X = 50 + 70 * col,
-                            .currentY = 50 + 70 * row,
-                            .endingY = 50 + 70 * (row + noOfSpaces)};
-                        fallingTiles->push_back(tile);
-
-                        // Removes it from actual graph
-                        this->grid->popTile(row, col);
-                    }
-                }
-            }
-
-            // Add items for falling animations of NEW TILES
-            for (auto col = 0; col < 8; col++)
-            {
-                // Gets number of top spaces
-                auto noOfTopSpaces = 0;
-                for (auto row = 0; row <= 6; row++)
-                {
-                    if (altGrid->getTile(row, col) == -1)
-                        noOfTopSpaces++;
-                }
-
-                // If there are no top spaces, then move on
-                if (noOfTopSpaces == 0)
-                    continue;
-
-                // Create animations for new tiles in those top spots
-                for (auto row = 0; row <= 6; row++)
-                {
-                    auto tileNumberNormalGrid = altGrid->getTile(row, col);
-                    auto tileNumberPostGrid = this->postFallingGrid->getTile(row, col);
-
-                    if (tileNumberNormalGrid == -1)
-                    {
-                        falling = true;
-                        FallingTile tile = FallingTile{
-                            .tile = tileNumberPostGrid,
-                            .X = 50 + 70 * col,
-                            .currentY = 50 - 70 * (noOfTopSpaces - row),
-                            .endingY = 50 + 70 * row};
-                        fallingTiles->push_back(tile);
-                    }
-                    else
-                        break;
-                }
-            }
+            this->animate();
         }
     }
 }
@@ -319,6 +262,93 @@ void GridObj::popCombination(int row, int col)
                 this->grid->popTile(row, i);
             else
                 break;
+    }
+}
+
+void GridObj::animate()
+{
+    // --------------*
+    // --* ANIMATIONS
+    // --------------*
+    // Sets up alt grid, to help animate new tiles
+    Grid *altGrid = new Grid(this->grid);
+    altGrid->moveAllTilesDown();
+
+    // Sets up post falling grid
+    this->postFallingGrid = new Grid(this->grid);
+    this->postFallingGrid->moveAllTilesDown();
+    this->postFallingGrid->fillInSpaces();
+
+    // Add items for falling animation OF OLD TILES
+    for (auto col = 0; col < 8; col++)
+    {
+        auto startFalling = false;
+        auto noOfSpaces = 0;
+
+        for (auto row = 6; row >= 0; row--)
+        {
+            if (this->grid->getTile(row, col) == -1)
+            {
+                noOfSpaces++;
+
+                if (!startFalling)
+                    startFalling = true;
+            }
+
+            // If this pos is falling, and there's a tile in the main grid
+            if (this->grid->getTile(row, col) > -1 && startFalling)
+            {
+                // Creates animation for this tile
+                auto tileNumber = this->grid->getTile(row, col);
+
+                falling = true;
+                FallingTile tile = FallingTile{
+                    .tile = tileNumber,
+                    .X = 50 + 70 * col,
+                    .currentY = 50 + 70 * row,
+                    .endingY = 50 + 70 * (row + noOfSpaces)};
+                fallingTiles->push_back(tile);
+
+                // Removes it from actual graph
+                this->grid->popTile(row, col);
+            }
+        }
+    }
+
+    // Add items for falling animations of NEW TILES
+    for (auto col = 0; col < 8; col++)
+    {
+        // Gets number of top spaces
+        auto noOfTopSpaces = 0;
+        for (auto row = 0; row <= 6; row++)
+        {
+            if (altGrid->getTile(row, col) == -1)
+                noOfTopSpaces++;
+        }
+
+        // If there are no top spaces, then move on
+        if (noOfTopSpaces == 0)
+            continue;
+
+        // Create animations for new tiles in those top spots
+        for (auto row = 0; row <= 6; row++)
+        {
+            auto tileNumberNormalGrid = altGrid->getTile(row, col);
+            auto tileNumberPostGrid = this->postFallingGrid->getTile(row, col);
+
+            if (tileNumberNormalGrid == -1)
+            {
+                falling = true;
+                FallingTile tile = FallingTile{
+                    .tile = tileNumberPostGrid,
+                    .X = 50 + 70 * col,
+                    .currentY = 50 - 70 * (noOfTopSpaces - row),
+                    .endingY = 50 + 70 * row};
+                fallingTiles->push_back(tile);
+            }
+            else
+                break;
+        }
     }
 }
 

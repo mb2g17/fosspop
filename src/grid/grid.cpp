@@ -250,7 +250,7 @@ bool Grid::isCombinationHere(int row, int col)
     // Offset
     noOfSameTileNeighbours -= 4;
 
-    std::cout << "Number of same tile neighbours: " << noOfSameTileNeighbours << std::endl;
+    //std::cout << "Number of same tile neighbours: " << noOfSameTileNeighbours << std::endl;
 
     return noOfSameTileNeighbours >= 2;
 }
