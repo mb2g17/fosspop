@@ -5,17 +5,11 @@
 #include "game/obj.hpp"
 #include "grid/grid.hpp"
 
-struct Position
-{
-    int row;
-    int col;
-};
-
 struct FallingTile
 {
     int tile;
-    float currentY;
     int X;
+    float currentY;
     int endingY;
     float velocity;
     float accel;

@@ -1,8 +1,0 @@
-Todo:
-    Src:
-        - Make Obj more general and add a SpriteObj
-    Tests:
-        Game:
-        Room:
-        Obj:
-        Misc:

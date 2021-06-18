@@ -121,8 +121,6 @@ void Grid::switchTiles(int row1, int col1, int row2, int col2)
     int oldTile2 = this->getTile(row2, col2);
     this->gridArray[row1][col1] = oldTile2;
     this->gridArray[row2][col2] = oldTile1;
-
-    std::cout << "Switched tiles" << std::endl;
 }
 
 void Grid::popTile(int row, int col)
