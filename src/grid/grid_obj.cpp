@@ -142,28 +142,12 @@ void GridObj::update(SDL_Renderer *renderer)
             delete this->grid;
             this->grid = this->postFallingGrid;
 
-            // Look for new combinations
-            bool popped = false;
-            for (auto row = 0; row < 7; row++)
+            // If there's still combinations, continue animation
+            if (this->grid->isCombinationAnywhere())
             {
-                for (auto col = 0; col < 8; col++)
-                {
-                    // If this is empty space, forget it
-                    if (this->grid->getTile(row, col) == -1)
-                        continue;
-
-                    // If there's a combination here, pop it
-                    if (this->grid->isCombinationHere(row, col))
-                    {
-                        this->popCombination(row, col);
-                        popped = true;
-                    }
-                }
-            }
-
-            // If we've popped something, animate again
-            if (popped)
+                this->grid->popAllCombinations();
                 this->animate();
+            }
         }
     }
 }
@@ -210,7 +194,7 @@ void GridObj::endDrag()
 
         Grid *checkGrid = new Grid(this->grid);
         checkGrid->swap(startRow, startCol, endRow, endCol);
-        willMakeCombination = checkGrid->isCombinationHere(endRow, endCol);
+        willMakeCombination = checkGrid->isCombinationAnywhere();
 
         delete checkGrid;
         checkGrid = NULL;
@@ -219,66 +203,15 @@ void GridObj::endDrag()
         {
             grid->swap(startRow, startCol, endRow, endCol);
 
-            // Pop combination at where we just dragged on to
-            this->popCombination(endRow, endCol);
+            // Pop all made combinations
+            this->grid->popAllCombinations();
             this->animate();
         }
     }
 }
 
-void GridObj::popCombination(int row, int col)
-{
-    // Get tile type we need to pop
-    int tileType = this->grid->getTile(row, col);
-
-    this->grid->popTile(row, col);
-
-    // Pop above (if we're not already at the top)
-    if (row > 0)
-    {
-        for (int i = row - 1; i >= 0; i--)
-            if (this->grid->getTile(i, col) == tileType)
-                this->grid->popTile(i, col);
-            else
-                break;
-    }
-
-    // Pop below (if we're not already at the bottom)
-    if (row < 6)
-    {
-        for (int i = row + 1; i <= 6; i++)
-            if (this->grid->getTile(i, col) == tileType)
-                this->grid->popTile(i, col);
-            else
-                break;
-    }
-
-    // Pop left (if we're not already at the far left)
-    if (col > 0)
-    {
-        for (int i = col - 1; i >= 0; i--)
-            if (this->grid->getTile(row, i) == tileType)
-                this->grid->popTile(row, i);
-            else
-                break;
-    }
-
-    // Pop right (if we're not already at the far right)
-    if (col < 7)
-    {
-        for (int i = col + 1; i <= 7; i++)
-            if (this->grid->getTile(row, i) == tileType)
-                this->grid->popTile(row, i);
-            else
-                break;
-    }
-}
-
 void GridObj::animate()
 {
-    // --------------*
-    // --* ANIMATIONS
-    // --------------*
     // Sets up alt grid, to help animate new tiles
     Grid *altGrid = new Grid(this->grid);
     altGrid->moveAllTilesDown();

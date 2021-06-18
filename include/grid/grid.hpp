@@ -21,9 +21,14 @@ public:
     void init(int[7][8]);
     int getTile(int, int);
     void swap(int, int, int, int);
+
+    void popAllCombinations();
+    void popCombination(int, int);
     void popTile(int, int);
 
+    bool isCombinationAnywhere();
     bool isCombinationHere(int, int);
+
     void setTileWithoutMakingCombination(int, int);
 
     void moveAllTilesDown();

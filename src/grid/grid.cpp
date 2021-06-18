@@ -123,21 +123,65 @@ void Grid::switchTiles(int row1, int col1, int row2, int col2)
     this->gridArray[row2][col2] = oldTile1;
 }
 
+void Grid::popAllCombinations()
+{
+    for (auto row = 0; row < 7; row++)
+        for (auto col = 0; col < 8; col++)
+            if (this->isCombinationHere(row, col))
+                this->popCombination(row, col);
+}
+
+void Grid::popCombination(int row, int col)
+{
+    // Get tile type we need to pop
+    int tileType = this->getTile(row, col);
+
+    this->popTile(row, col);
+
+    // Pop above (if we're not already at the top)
+    if (row > 0)
+    {
+        for (int i = row - 1; i >= 0; i--)
+            if (this->getTile(i, col) == tileType)
+                this->popTile(i, col);
+            else
+                break;
+    }
+
+    // Pop below (if we're not already at the bottom)
+    if (row < 6)
+    {
+        for (int i = row + 1; i <= 6; i++)
+            if (this->getTile(i, col) == tileType)
+                this->popTile(i, col);
+            else
+                break;
+    }
+
+    // Pop left (if we're not already at the far left)
+    if (col > 0)
+    {
+        for (int i = col - 1; i >= 0; i--)
+            if (this->getTile(row, i) == tileType)
+                this->popTile(row, i);
+            else
+                break;
+    }
+
+    // Pop right (if we're not already at the far right)
+    if (col < 7)
+    {
+        for (int i = col + 1; i <= 7; i++)
+            if (this->getTile(row, i) == tileType)
+                this->popTile(row, i);
+            else
+                break;
+    }
+}
+
 void Grid::popTile(int row, int col)
 {
-    // Pops tile
     this->gridArray[row][col] = -1;
-
-    // Moves all tiles down
-    /*this->moveTilesDown(col);
-
-    // Select random new tile at the top, such that it won't make a combination
-    std::random_device rd;
-    std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> uni(0, 6);
-
-    this->gridArray[0][col] = uni(rng);
-    this->setTileWithoutMakingCombination(0, col);*/
 }
 
 void Grid::moveTilesDown(int col)
@@ -201,10 +245,23 @@ bool Grid::isPositionInvalid(int row, int col)
     return col < 0 || col > 8 || row < 0 || row > 7;
 }
 
+bool Grid::isCombinationAnywhere()
+{
+    for (auto row = 0; row < 7; row++)
+        for (auto col = 0; col < 8; col++)
+            if (this->isCombinationHere(row, col))
+                return true;
+    return false;
+}
+
 bool Grid::isCombinationHere(int row, int col)
 {
     // Get current tile
     auto thisTile = gridArray[row][col];
+
+    // If this is an empty space, then it isn't a combination
+    if (thisTile == -1)
+        return false;
 
     // Remembers how many same-time neighbours there are
     int noOfSameTileNeighbours = 0;

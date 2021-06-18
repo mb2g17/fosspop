@@ -41,8 +41,6 @@ public:
     void startDrag();
     void endDrag();
 
-    void popCombination(int, int);
-
 private:
     void animate();
     int getMouseRow();
