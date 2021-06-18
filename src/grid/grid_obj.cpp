@@ -175,6 +175,10 @@ void GridObj::updateMousePos(SDL_Rect mousePos)
 
 void GridObj::startDrag()
 {
+    // If things are falling, don't start any drag
+    if (falling)
+        return;
+
     auto row = getMouseRow();
     auto col = getMouseCol();
 
@@ -189,6 +193,10 @@ void GridObj::startDrag()
 
 void GridObj::endDrag()
 {
+    // If things are falling, don't do any drag
+    if (falling)
+        return;
+
     auto startRow = dragRow;
     auto startCol = dragCol;
     auto endRow = getMouseRow();
