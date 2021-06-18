@@ -8,10 +8,22 @@
 
 Grid::Grid()
 {
+    // Inits randomness
+    this->seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::random_device rd;
+    rng = std::mt19937(rd());
+    uni = std::uniform_int_distribution<int>(0, 6);
 }
 
 Grid::Grid(const Grid *grid)
 {
+    // Inits randomness
+    this->seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::random_device rd;
+    rng = std::mt19937(rd());
+    uni = std::uniform_int_distribution<int>(0, 6);
+
+    // Inits grid
     for (int row = 0; row < 7; row++)
         for (int col = 0; col < 8; col++)
             this->gridArray[row][col] = grid->gridArray[row][col];
@@ -30,14 +42,17 @@ int Grid::getTile(int row, int col)
 
 void Grid::init()
 {
-    // Prepares randomness
-    std::random_device rd;
-    std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> uni(0, 6);
-
+    // Randomly inits grid
     for (int row = 0; row < 7; row++)
         for (int col = 0; col < 8; col++)
-            this->gridArray[row][col] = uni(rng);
+            this->setTileRandomly(row, col);
+
+    // Removes combinations
+    if (this->isCombinationAnywhere())
+    {
+        this->popAllCombinations();
+        this->fillInSpaces();
+    }
 
     initialised = true;
 }
@@ -214,16 +229,22 @@ void Grid::moveAllTilesDown()
         this->moveTilesDown(col);
 }
 
+void Grid::setTileRandomly(int row, int col)
+{
+    this->gridArray[row][col] = uni(rng);
+}
+
 void Grid::setTileWithoutMakingCombination(int row, int col)
 {
     // Shuffle tiles
-    std::array<int, 6> tiles{1, 2, 3, 4, 5, 6};
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    shuffle(tiles.begin(), tiles.end(), std::default_random_engine(seed));
+    std::array<int, 7> tiles{0, 1, 2, 3, 4, 5, 6};
+    shuffle(tiles.begin(), tiles.end(), std::default_random_engine(this->seed));
+    this->seed++;
+
     for (int &tile : tiles)
     {
         this->gridArray[row][col] = tile;
-        if (!this->isCombinationHere(row, col))
+        if (!this->isCombinationAnywhere())
             break;
     }
 }
