@@ -7,6 +7,9 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 
 set(SOURCES ${TEST_SOURCES})
 
+# Sets include directory
+include_directories(.)
+
 # Create executable of tests
 add_executable(${BINARY} ${TEST_SOURCES})
 

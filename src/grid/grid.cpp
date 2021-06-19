@@ -199,6 +199,12 @@ void Grid::popTile(int row, int col)
     this->gridArray[row][col] = -1;
 }
 
+void Grid::moveAllTilesDown()
+{
+    for (int col = 0; col < 8; col++)
+        this->moveTilesDown(col);
+}
+
 void Grid::moveTilesDown(int col)
 {
     bool moved = true;
@@ -221,12 +227,6 @@ void Grid::moveTilesDown(int col)
             }
         }
     }
-}
-
-void Grid::moveAllTilesDown()
-{
-    for (int col = 0; col < 8; col++)
-        this->moveTilesDown(col);
 }
 
 void Grid::setTileRandomly(int row, int col)

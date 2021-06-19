@@ -26,24 +26,46 @@ public:
 
     void init();
     void init(int[7][8]);
-    int getTile(int, int);
-    void swap(int, int, int, int);
+    int getTile(int row, int col);
 
+    // SWAPPING
+public:
+    void swap(int row1, int col1, int row2, int col2);
+
+protected:
+    void switchTiles(int row1, int col1, int row2, int col2);
+
+    // POPPING
+public:
     void popAllCombinations();
-    void popCombination(int, int);
-    void popTile(int, int);
+    void popTile(int row, int col);
 
-    bool isCombinationAnywhere();
-    bool isCombinationHere(int, int);
+protected:
+    void popCombination(int row, int col);
 
-    void setTileRandomly(int, int);
-    void setTileWithoutMakingCombination(int, int);
-
+    // MOVING
+public:
     void moveAllTilesDown();
+
+protected:
+    void moveTilesDown(int col);
+
+    // FINDING COMBINATIONS
+public:
+    bool isCombinationAnywhere();
+
+protected:
+    bool isCombinationHere(int row, int col);
+
+    // TILE GENERATION
+public:
     void fillInSpaces();
 
 protected:
-    void switchTiles(int, int, int, int);
-    bool isPositionInvalid(int, int);
-    void moveTilesDown(int col);
+    void setTileRandomly(int row, int col);
+    void setTileWithoutMakingCombination(int row, int col);
+
+    // MISCELLANEOUS
+protected:
+    bool isPositionInvalid(int row, int col);
 };

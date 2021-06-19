@@ -2,6 +2,8 @@
 
 #include "gtest/gtest.h"
 
+#include "grid_assert.hpp"
+
 namespace GridSwapTest
 {
     class GridSwapFixture : public testing::Test
@@ -43,7 +45,7 @@ TEST_F(GridSwapFixture, should_not_swap_invalid_positions)
 TEST_F(GridSwapFixture, should_swap_col_left_to_right_postinit)
 {
     int gridArray[7][8] = {
-        {0, 1, 2, 3, 4, 5, 6, 7},
+        {0, 1, 2, 3, 4, 5, 6, 7}, // <-- 0 on far left
         {1, 2, 3, 4, 5, 6, 7, 0},
         {2, 3, 4, 5, 6, 7, 0, 1},
         {3, 4, 5, 6, 7, 0, 1, 2},
@@ -54,20 +56,22 @@ TEST_F(GridSwapFixture, should_swap_col_left_to_right_postinit)
 
     grid->swap(0, 0, 0, 7);
 
-    EXPECT_EQ(grid->getTile(0, 0), 1);
-    EXPECT_EQ(grid->getTile(0, 1), 2);
-    EXPECT_EQ(grid->getTile(0, 2), 3);
-    EXPECT_EQ(grid->getTile(0, 3), 4);
-    EXPECT_EQ(grid->getTile(0, 4), 5);
-    EXPECT_EQ(grid->getTile(0, 5), 6);
-    EXPECT_EQ(grid->getTile(0, 6), 7);
-    EXPECT_EQ(grid->getTile(0, 7), 0);
+    int expectedGridArray[7][8] = {
+        {1, 2, 3, 4, 5, 6, 7, 0}, // <-- 0 on far right
+        {1, 2, 3, 4, 5, 6, 7, 0},
+        {2, 3, 4, 5, 6, 7, 0, 1},
+        {3, 4, 5, 6, 7, 0, 1, 2},
+        {4, 5, 6, 7, 0, 1, 2, 3},
+        {5, 6, 7, 0, 1, 2, 3, 4},
+        {6, 7, 0, 1, 2, 3, 4, 5}};
+
+    assertGrid(grid, expectedGridArray);
 }
 
 TEST_F(GridSwapFixture, should_swap_col_right_to_left_postinit)
 {
     int gridArray[7][8] = {
-        {0, 1, 2, 3, 4, 5, 6, 7},
+        {0, 1, 2, 3, 4, 5, 6, 7}, // <-- 7 on far right
         {1, 2, 3, 4, 5, 6, 7, 0},
         {2, 3, 4, 5, 6, 7, 0, 1},
         {3, 4, 5, 6, 7, 0, 1, 2},
@@ -78,20 +82,22 @@ TEST_F(GridSwapFixture, should_swap_col_right_to_left_postinit)
 
     grid->swap(0, 7, 0, 0);
 
-    EXPECT_EQ(grid->getTile(0, 0), 7);
-    EXPECT_EQ(grid->getTile(0, 1), 0);
-    EXPECT_EQ(grid->getTile(0, 2), 1);
-    EXPECT_EQ(grid->getTile(0, 3), 2);
-    EXPECT_EQ(grid->getTile(0, 4), 3);
-    EXPECT_EQ(grid->getTile(0, 5), 4);
-    EXPECT_EQ(grid->getTile(0, 6), 5);
-    EXPECT_EQ(grid->getTile(0, 7), 6);
+    int expectedGridArray[7][8] = {
+        {7, 0, 1, 2, 3, 4, 5, 6}, // <-- 7 on far left
+        {1, 2, 3, 4, 5, 6, 7, 0},
+        {2, 3, 4, 5, 6, 7, 0, 1},
+        {3, 4, 5, 6, 7, 0, 1, 2},
+        {4, 5, 6, 7, 0, 1, 2, 3},
+        {5, 6, 7, 0, 1, 2, 3, 4},
+        {6, 7, 0, 1, 2, 3, 4, 5}};
+
+    assertGrid(grid, expectedGridArray);
 }
 
 TEST_F(GridSwapFixture, should_swap_row_top_to_bottom_postinit)
 {
     int gridArray[7][8] = {
-        {0, 1, 2, 3, 4, 5, 6, 7},
+        {0, 1, 2, 3, 4, 5, 6, 7}, // <-- 0 at the top
         {1, 2, 3, 4, 5, 6, 7, 0},
         {2, 3, 4, 5, 6, 7, 0, 1},
         {3, 4, 5, 6, 7, 0, 1, 2},
@@ -102,13 +108,16 @@ TEST_F(GridSwapFixture, should_swap_row_top_to_bottom_postinit)
 
     grid->swap(0, 0, 6, 0);
 
-    EXPECT_EQ(grid->getTile(0, 0), 1);
-    EXPECT_EQ(grid->getTile(1, 0), 2);
-    EXPECT_EQ(grid->getTile(2, 0), 3);
-    EXPECT_EQ(grid->getTile(3, 0), 4);
-    EXPECT_EQ(grid->getTile(4, 0), 5);
-    EXPECT_EQ(grid->getTile(5, 0), 6);
-    EXPECT_EQ(grid->getTile(6, 0), 0);
+    int expectedGridArray[7][8] = {
+        {1, 1, 2, 3, 4, 5, 6, 7},
+        {2, 2, 3, 4, 5, 6, 7, 0},
+        {3, 3, 4, 5, 6, 7, 0, 1},
+        {4, 4, 5, 6, 7, 0, 1, 2},
+        {5, 5, 6, 7, 0, 1, 2, 3},
+        {6, 6, 7, 0, 1, 2, 3, 4},
+        {0, 7, 0, 1, 2, 3, 4, 5}}; // <-- 0 at the bottom
+
+    assertGrid(grid, expectedGridArray);
 }
 
 TEST_F(GridSwapFixture, should_swap_row_bottom_to_top_postinit)
@@ -120,16 +129,19 @@ TEST_F(GridSwapFixture, should_swap_row_bottom_to_top_postinit)
         {3, 4, 5, 6, 7, 0, 1, 2},
         {4, 5, 6, 7, 0, 1, 2, 3},
         {5, 6, 7, 0, 1, 2, 3, 4},
-        {6, 7, 0, 1, 2, 3, 4, 5}};
+        {6, 7, 0, 1, 2, 3, 4, 5}}; // <-- 6 at the bottom
     grid->init(gridArray);
 
     grid->swap(6, 0, 0, 0);
 
-    EXPECT_EQ(grid->getTile(0, 0), 6);
-    EXPECT_EQ(grid->getTile(1, 0), 0);
-    EXPECT_EQ(grid->getTile(2, 0), 1);
-    EXPECT_EQ(grid->getTile(3, 0), 2);
-    EXPECT_EQ(grid->getTile(4, 0), 3);
-    EXPECT_EQ(grid->getTile(5, 0), 4);
-    EXPECT_EQ(grid->getTile(6, 0), 5);
+    int expectedGridArray[7][8] = {
+        {6, 1, 2, 3, 4, 5, 6, 7}, // <-- 6 at the top
+        {0, 2, 3, 4, 5, 6, 7, 0},
+        {1, 3, 4, 5, 6, 7, 0, 1},
+        {2, 4, 5, 6, 7, 0, 1, 2},
+        {3, 5, 6, 7, 0, 1, 2, 3},
+        {4, 6, 7, 0, 1, 2, 3, 4},
+        {5, 7, 0, 1, 2, 3, 4, 5}};
+
+    assertGrid(grid, expectedGridArray);
 }
