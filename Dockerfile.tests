@@ -12,9 +12,9 @@ COPY assets /src/assets
 COPY CMakeLists.txt /src/CMakeLists.txt
 
 # Compiles test suite
-RUN mkdir cmake_tests
-WORKDIR cmake_tests
-RUN cmake .. && make
+RUN mkdir /src/cmake_tests
+WORKDIR /src/cmake_tests
+RUN cmake /src && make
 
 # Runs test suite
-CMD ["./tests/FossPop_Tests"]
+CMD ["/src/cmake_tests/tests/FossPop_Tests"]

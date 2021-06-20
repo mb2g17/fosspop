@@ -6,6 +6,11 @@ project(FossPop_Tests)
 # Sets include directory
 include_directories(include)
 
+# Finds SDL2 libraries
+include(FindPkgConfig)
+pkg_search_module(SDL2 REQUIRED sdl2)
+pkg_search_module(SDL2_image REQUIRED SDL2_image>=2.0.0)
+
 # Adds project and test cases
 add_subdirectory(src/game)
 add_subdirectory(src/test)
