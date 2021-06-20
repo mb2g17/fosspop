@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <SDL2/SDL.h>
+
 #include "game/obj.hpp"
 #include "game/room.hpp"
 

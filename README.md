@@ -1,6 +1,6 @@
 # FossPop
 
-[![Build Status](https://www.travis-ci.com/mb2g17/fosspop.svg?branch=master)](https://www.travis-ci.com/mb2g17/fosspop)
+[![Build Status](https://jenkins.matt-barnes.co.uk/buildStatus/icon?job=FossPop)](https://jenkins.matt-barnes.co.uk/job/FossPop/)
 
 ## Table of contents
 
