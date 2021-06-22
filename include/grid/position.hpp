@@ -4,13 +4,16 @@
 #include <set>
 
 struct Position;
-struct PositionComp;
-
-typedef std::set<Position, PositionComp> PositionSet;
 
 struct PositionComp
 {
     bool operator()(const Position &lhs, const Position &rhs) const;
+};
+
+class PositionSet : public std::set<Position, PositionComp>
+{
+public:
+    bool contains(const Position &pos);
 };
 
 struct Position

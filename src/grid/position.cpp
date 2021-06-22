@@ -2,6 +2,11 @@
 
 #include <stdexcept>
 
+bool PositionSet::contains(const Position &pos)
+{
+    return this->find(pos) != this->end();
+}
+
 bool PositionComp::operator()(const Position &lhs, const Position &rhs) const
 {
     return lhs < rhs;
