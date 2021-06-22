@@ -1,5 +1,7 @@
 #pragma once
 
+#include "grid/position.hpp"
+
 #include <random>
 
 class Grid
@@ -42,6 +44,7 @@ public:
 
 protected:
     void popCombination(int row, int col);
+    PositionSet getVeinHere(int row, int col);
 
     // MOVING
 public:
@@ -55,6 +58,7 @@ public:
     bool isCombinationAnywhere();
 
 protected:
+    PositionSet getCombinationHere(int row, int col);
     bool isCombinationHere(int row, int col);
 
     // TILE GENERATION

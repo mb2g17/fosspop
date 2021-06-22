@@ -148,56 +148,56 @@ void Grid::popAllCombinations()
 
 void Grid::popCombination(int row, int col)
 {
-    // STEP 1: collect set of all tiles in vein
-    // STEP 2: pick arbitrary tile, remove from fringe
-    // STEP 3: check if >3 horizontally or vertically
-    // STEP 4: flag tiles to 'pop' in a popping set, remove from fringe
-    // STEP 5: if fringe is non-empty, repeat from step 2
+    PositionSet fringe = getVeinHere(row, col);
+    PositionSet poppingSet;
 
-    // Get tile type we need to pop
-    int tileType = this->getTile(row, col);
-
-    this->popTile(row, col);
-
-    // Pop above (if we're not already at the top)
-    if (row > 0)
+    while (fringe.size() > 0)
     {
-        for (int i = row - 1; i >= 0; i--)
-            if (this->getTile(i, col) == tileType)
-                this->popTile(i, col);
-            else
-                break;
+        Position poppedPos = *fringe.begin();
+        fringe.erase(poppedPos);
+
+        PositionSet combinationTiles = getCombinationHere(poppedPos.row, poppedPos.col);
+
+        for (auto &combinationPos : combinationTiles)
+        {
+            poppingSet.insert(combinationPos);
+            fringe.erase(combinationPos);
+        }
     }
 
-    // Pop below (if we're not already at the bottom)
-    if (row < 6)
+    // Pop all tiles in popping set
+    for (auto &poppingPos : poppingSet)
+        popTile(poppingPos.row, poppingPos.col);
+}
+
+PositionSet Grid::getVeinHere(int row, int col)
+{
+    int currentType = this->gridArray[row][col];
+    PositionSet vein, openPositions, closedPositions;
+    openPositions.insert(Position(row, col));
+
+    while (openPositions.size() > 0)
     {
-        for (int i = row + 1; i <= 6; i++)
-            if (this->getTile(i, col) == tileType)
-                this->popTile(i, col);
-            else
-                break;
+        // Pop element
+        Position poppedPosition = *openPositions.begin();
+        openPositions.erase(poppedPosition);
+        closedPositions.insert(poppedPosition);
+
+        PositionSet neighbours = poppedPosition.getNeighbours();
+        for (auto &neighbour : neighbours)
+        {
+            // Only consider if it's of our type
+            int neighbourType = this->gridArray[neighbour.row][neighbour.col];
+            if (neighbourType == currentType)
+            {
+                vein.insert(neighbour);
+                if (!closedPositions.contains(neighbour))
+                    openPositions.insert(neighbour);
+            }
+        }
     }
 
-    // Pop left (if we're not already at the far left)
-    if (col > 0)
-    {
-        for (int i = col - 1; i >= 0; i--)
-            if (this->getTile(row, i) == tileType)
-                this->popTile(row, i);
-            else
-                break;
-    }
-
-    // Pop right (if we're not already at the far right)
-    if (col < 7)
-    {
-        for (int i = col + 1; i <= 7; i++)
-            if (this->getTile(row, i) == tileType)
-                this->popTile(row, i);
-            else
-                break;
-    }
+    return vein;
 }
 
 void Grid::popTile(int row, int col)
@@ -281,58 +281,68 @@ bool Grid::isCombinationAnywhere()
     return false;
 }
 
-bool Grid::isCombinationHere(int row, int col)
+PositionSet Grid::getCombinationHere(int row, int col)
 {
-    // Get current tile
-    auto thisTile = gridArray[row][col];
+    int selectedTile = this->gridArray[row][col];
+    PositionSet combinationTiles, horizontalTiles, verticalTiles;
 
-    // If this is an empty space, then it isn't a combination
-    if (thisTile == -1)
-        return false;
+    // If empty space, there are no combinations
+    if (selectedTile == -1)
+        return combinationTiles;
 
-    // Remembers how many same-time neighbours there are
-    int noOfSameTileNeighbours = 0;
-
-    // Checks left side
+    // LEFT
     for (int i = col; i >= 0; i--)
     {
-        if (gridArray[row][i] != thisTile)
+        if (gridArray[row][i] != selectedTile)
             break;
         else
-            noOfSameTileNeighbours++;
+            horizontalTiles.insert(Position(row, i));
     }
 
-    // Checks right side
+    // RIGHT
     for (int i = col; i <= 7; i++)
     {
-        if (gridArray[row][i] != thisTile)
+        if (gridArray[row][i] != selectedTile)
             break;
         else
-            noOfSameTileNeighbours++;
+            horizontalTiles.insert(Position(row, i));
     }
 
-    // Checks top side
+    if (horizontalTiles.size() >= 3)
+    {
+        for (auto &pos : horizontalTiles)
+            combinationTiles.insert(pos);
+    }
+
+    // TOP
     for (int i = row; i >= 0; i--)
     {
-        if (gridArray[i][col] != thisTile)
+        if (gridArray[i][col] != selectedTile)
             break;
         else
-            noOfSameTileNeighbours++;
+            verticalTiles.insert(Position(i, col));
     }
 
-    // Checks bottom side
+    // BOTTOM
     for (int i = row; i <= 6; i++)
     {
-        if (gridArray[i][col] != thisTile)
+        if (gridArray[i][col] != selectedTile)
             break;
         else
-            noOfSameTileNeighbours++;
+            verticalTiles.insert(Position(i, col));
     }
 
-    // Offset
-    noOfSameTileNeighbours -= 4;
+    if (verticalTiles.size() >= 3)
+    {
+        for (auto &pos : verticalTiles)
+            combinationTiles.insert(pos);
+    }
 
-    //std::cout << "Number of same tile neighbours: " << noOfSameTileNeighbours << std::endl;
+    return combinationTiles;
+}
 
-    return noOfSameTileNeighbours >= 2;
+bool Grid::isCombinationHere(int row, int col)
+{
+    PositionSet combinationHere = getCombinationHere(row, col);
+    return combinationHere.size() > 0;
 }
