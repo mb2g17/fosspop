@@ -24,7 +24,7 @@ private:
 
 public:
     Grid();
-    Grid(const Grid *);
+    Grid(const Grid &);
 
     void init();
     void init(int[7][8]);

@@ -15,7 +15,7 @@ Grid::Grid()
     uni = std::uniform_int_distribution<int>(0, 6);
 }
 
-Grid::Grid(const Grid *grid)
+Grid::Grid(const Grid &grid)
 {
     // Inits randomness
     this->seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -26,7 +26,7 @@ Grid::Grid(const Grid *grid)
     // Inits grid
     for (int row = 0; row < 7; row++)
         for (int col = 0; col < 8; col++)
-            this->gridArray[row][col] = grid->gridArray[row][col];
+            this->gridArray[row][col] = grid.gridArray[row][col];
 
     initialised = true;
 }

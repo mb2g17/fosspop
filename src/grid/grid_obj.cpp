@@ -192,7 +192,7 @@ void GridObj::endDrag()
     {
         bool willMakeCombination = false;
 
-        Grid *checkGrid = new Grid(this->grid);
+        Grid *checkGrid = new Grid(*this->grid);
         checkGrid->swap(startRow, startCol, endRow, endCol);
         willMakeCombination = checkGrid->isCombinationAnywhere();
 
@@ -213,11 +213,11 @@ void GridObj::endDrag()
 void GridObj::animate()
 {
     // Sets up alt grid, to help animate new tiles
-    Grid *altGrid = new Grid(this->grid);
+    Grid *altGrid = new Grid(*this->grid);
     altGrid->moveAllTilesDown();
 
     // Sets up post falling grid
-    this->postFallingGrid = new Grid(this->grid);
+    this->postFallingGrid = new Grid(*this->grid);
     this->postFallingGrid->moveAllTilesDown();
     this->postFallingGrid->fillInSpaces();
 
