@@ -4,6 +4,9 @@
 #include <set>
 
 struct Position;
+struct PositionComp;
+
+typedef std::set<Position, PositionComp> PositionSet;
 
 struct PositionComp
 {
@@ -16,7 +19,7 @@ struct Position
     int col;
 
     Position(int row, int col);
-    std::set<Position, PositionComp> getNeighbours();
+    PositionSet getNeighbours();
 
     bool operator<(const Position &pos) const;
     int getHash() const;

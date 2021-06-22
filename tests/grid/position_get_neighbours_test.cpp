@@ -4,13 +4,13 @@
 
 #include <set>
 
-#define ASSERT_NEIGHBOURS(INITIAL_ROW, INITIAL_COL, ...)                      \
-    Position initialPos(INITIAL_ROW, INITIAL_COL);                            \
-    std::set<Position, PositionComp> neighbours = initialPos.getNeighbours(); \
-                                                                              \
-    Position expectedPositions[] = {__VA_ARGS__};                             \
-                                                                              \
-    for (auto &position : expectedPositions)                                  \
+#define ASSERT_NEIGHBOURS(INITIAL_ROW, INITIAL_COL, ...) \
+    Position initialPos(INITIAL_ROW, INITIAL_COL);       \
+    PositionSet neighbours = initialPos.getNeighbours(); \
+                                                         \
+    Position expectedPositions[] = {__VA_ARGS__};        \
+                                                         \
+    for (auto &position : expectedPositions)             \
         EXPECT_TRUE(neighbours.find(position) != neighbours.end());
 
 /* ----------------

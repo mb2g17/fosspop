@@ -148,6 +148,12 @@ void Grid::popAllCombinations()
 
 void Grid::popCombination(int row, int col)
 {
+    // STEP 1: collect set of all tiles in vein
+    // STEP 2: pick arbitrary tile, remove from fringe
+    // STEP 3: check if >3 horizontally or vertically
+    // STEP 4: flag tiles to 'pop' in a popping set, remove from fringe
+    // STEP 5: if fringe is non-empty, repeat from step 2
+
     // Get tile type we need to pop
     int tileType = this->getTile(row, col);
 

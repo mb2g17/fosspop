@@ -19,9 +19,9 @@ Position::Position(int row, int col) : row(row), col(col)
         throw std::out_of_range("Col cannot be over 7");
 }
 
-std::set<Position, PositionComp> Position::getNeighbours()
+PositionSet Position::getNeighbours()
 {
-    std::set<Position, PositionComp> neighbours;
+    PositionSet neighbours;
 
     if (row > 0)
         neighbours.insert(Position(row - 1, col));
@@ -45,17 +45,4 @@ bool Position::operator<(const Position &pos) const
 int Position::getHash() const
 {
     return pow(2, row) * pow(3, col);
-}
-
-// Position hash definition
-namespace std
-{
-    template <>
-    struct hash<Position>
-    {
-        size_t operator()(const Position &pos) const
-        {
-            return pos.getHash();
-        }
-    };
 }
