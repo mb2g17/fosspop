@@ -18,12 +18,12 @@ TestRoom::TestRoom(SDL_Renderer *renderer)
 
     // Adds background
     this->bg = new Obj(renderer, "assets/game.png");
-    this->bg->setPos(34, 34);
+    this->bg->setPos(0, 0);
     this->addObj(this->bg);
 
     // Adds grid
     this->gridObj = new GridObj(renderer);
-    this->gridObj->setPos(50, 50);
+    this->gridObj->setPos(16, 16);
     this->addObj(this->gridObj);
 }
 

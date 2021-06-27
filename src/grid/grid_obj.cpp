@@ -234,9 +234,9 @@ void GridObj::animate()
                 falling = true;
                 FallingTile tile = FallingTile{
                     .tile = tileNumber,
-                    .X = 50 + 70 * col,
-                    .currentY = (float)(50 + 70 * row),
-                    .endingY = 50 + 70 * (row + noOfSpaces),
+                    .X = 16 + 70 * col,
+                    .currentY = (float)(16 + 70 * row),
+                    .endingY = 16 + 70 * (row + noOfSpaces),
                     .velocity = 0,
                     .accel = 0.5f};
                 fallingTiles->push_back(tile);
@@ -273,9 +273,9 @@ void GridObj::animate()
                 falling = true;
                 FallingTile tile = FallingTile{
                     .tile = tileNumberPostGrid,
-                    .X = 50 + 70 * col,
-                    .currentY = (float)(50 - 70 * (noOfTopSpaces - row)),
-                    .endingY = 50 + 70 * row,
+                    .X = 16 + 70 * col,
+                    .currentY = (float)(16 - 70 * (noOfTopSpaces - row)),
+                    .endingY = 16 + 70 * row,
                     .velocity = 0,
                     .accel = 0.5f};
                 fallingTiles->push_back(tile);

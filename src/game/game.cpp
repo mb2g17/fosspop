@@ -14,7 +14,7 @@ Game::Game()
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer);
+    SDL_CreateWindowAndRenderer(586, 515, 0, &window, &renderer);
 
     this->renderer = renderer;
 }

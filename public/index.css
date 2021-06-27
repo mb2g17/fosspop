@@ -1,0 +1,43 @@
+/* Desktops */
+@media screen and (min-width: 1280px) {
+    body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #game {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    #logo {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+    }
+
+    .emscripten_border {
+        margin-top: 20px;
+    }
+}
+
+/* Phones */
+@media screen and (max-width: 1280px) {
+    #logo {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Screens too small for the canvas */
+@media screen and (max-width: 586px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    canvas {
+        width: 100vw;
+    }
+}
