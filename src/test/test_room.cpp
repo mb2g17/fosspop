@@ -16,6 +16,11 @@ TestRoom::TestRoom(SDL_Renderer *renderer)
     // Sets bg color
     this->setBgColor({.r = 0xBF, .g = 0x00, .b = 0xFF, .a = 0xFF});
 
+    // Adds background
+    this->bg = new Obj(renderer, "assets/game.png");
+    this->bg->setPos(34, 34);
+    this->addObj(this->bg);
+
     // Adds grid
     this->gridObj = new GridObj(renderer);
     this->gridObj->setPos(50, 50);

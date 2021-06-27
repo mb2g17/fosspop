@@ -8,6 +8,7 @@ class TestRoom : public Room
 {
     Grid *grid;
     GridObj *gridObj;
+    Obj *bg;
 
 public:
     TestRoom(SDL_Renderer *);
