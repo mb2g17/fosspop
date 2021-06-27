@@ -4,25 +4,10 @@
 #include <SDL2/SDL_image.h>
 
 #include "grid/grid_obj.hpp"
+#include "assets/textures.hpp"
 
 GridObj::GridObj(SDL_Renderer *renderer)
 {
-    // Initialises textures
-    const char *filenames[7] = {
-        "assets/blue.fw.png",
-        "assets/green.fw.png",
-        "assets/orange.fw.png",
-        "assets/pink.fw.png",
-        "assets/purple.fw.png",
-        "assets/red.fw.png",
-        "assets/yellow.fw.png"};
-
-    for (auto i = 0; i < 7; i++)
-    {
-        SDL_Surface *image = IMG_Load(filenames[i]);
-        this->tileTextures[i] = SDL_CreateTextureFromSurface(renderer, image);
-    }
-
     // Initialises grid
     this->grid = new Grid();
     this->grid->init();
@@ -88,7 +73,8 @@ void GridObj::update(SDL_Renderer *renderer)
                 .h = 64};
 
             // Draw this tile
-            SDL_RenderCopy(renderer, this->tileTextures[i], NULL, &pos);
+            auto tileTex = Textures::getInstance().getTileTexture(i);
+            SDL_RenderCopy(renderer, tileTex, NULL, &pos);
         }
     }
 
@@ -110,14 +96,15 @@ void GridObj::update(SDL_Renderer *renderer)
         auto thereExistsMovingTiles = false;
 
         // For every falling tile
-        for (std::vector<FallingTile>::iterator iter = fallingTiles->begin(); iter != fallingTiles->end(); ++iter)
+        for (auto iter = fallingTiles->begin(); iter != fallingTiles->end(); ++iter)
         {
             // Gets tile
-            FallingTile tile = *iter;
+            auto tile = *iter;
 
             // Draws tile
-            SDL_Rect pos = SDL_Rect{.x = tile.X, .y = (int)tile.currentY, .w = 64, .h = 64};
-            SDL_RenderCopy(renderer, this->tileTextures[tile.tile], NULL, &pos);
+            auto tileTexture = Textures::getInstance().getTileTexture(tile.tile);
+            auto pos = SDL_Rect{.x = tile.X, .y = (int)tile.currentY, .w = 64, .h = 64};
+            SDL_RenderCopy(renderer, tileTexture, NULL, &pos);
 
             // Move tile, if it should be moved
             if (tile.currentY < tile.endingY)
@@ -171,7 +158,8 @@ void GridObj::startDrag()
     this->dragCol = col;
 
     auto tile = this->grid->getTile(row, col);
-    this->dragTex = tileTextures[tile];
+    auto tileTexture = Textures::getInstance().getTileTexture(tile);
+    this->dragTex = tileTexture;
     std::cout << "Row: " << row << ", Col: " << col << std::endl;
 }
 

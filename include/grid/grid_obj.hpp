@@ -18,7 +18,6 @@ struct FallingTile
 class GridObj : public Obj
 {
     Grid *grid;
-    SDL_Texture *tileTextures[7];
 
     bool dragging = false;
     int dragRow = -1;

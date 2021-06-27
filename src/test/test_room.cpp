@@ -2,12 +2,16 @@
 
 #include "test/test_room.hpp"
 #include "grid/grid_obj.hpp"
+#include "assets/textures.hpp"
 
 SDL_Renderer *my_renderer;
 
 TestRoom::TestRoom(SDL_Renderer *renderer)
 {
     my_renderer = renderer;
+
+    // Sets textures
+    Textures::getInstance().setTextures(renderer, "bevel");
 
     // Sets bg color
     this->setBgColor({.r = 0xBF, .g = 0x00, .b = 0xFF, .a = 0xFF});
