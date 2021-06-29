@@ -33,13 +33,14 @@ void Textures::freeTextures()
 void Textures::updateTextures(SDL_Renderer *renderer, const char *packName)
 {
     const char *filenames[7] = {
+        "purple.fw.png", // 0 - broken heart
+        "yellow.fw.png", // 1 - new move
         "blue.fw.png",
         "green.fw.png",
         "orange.fw.png",
         "pink.fw.png",
-        "purple.fw.png",
         "red.fw.png",
-        "yellow.fw.png"};
+    };
 
     initialised = true;
     for (auto i = 0; i < 7; i++)

@@ -2,6 +2,16 @@ var statusElement = document.getElementById("status");
 var progressElement = document.getElementById("progress");
 var spinnerElement = document.getElementById("spinner");
 
+function setScore(score) {
+    let p = document.getElementById("score");
+    p.innerHTML = `Score: ${score}`;
+}
+
+function setMoves(moves) {
+    let p = document.getElementById("moves");
+    p.innerHTML = `Moves: ${moves}`;
+}
+
 // -- SET CANVAS SIZE --
 const canvas = document.getElementById("canvas");
 const vw = Math.max(

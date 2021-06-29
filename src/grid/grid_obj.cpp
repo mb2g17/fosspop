@@ -192,7 +192,7 @@ void GridObj::endDrag()
             grid->swap(startRow, startCol, endRow, endCol);
 
             // Pop all made combinations
-            this->grid->popAllCombinations();
+            this->grid->popAllCombinationsAndSpendMove();
             this->animate();
         }
     }

@@ -22,6 +22,9 @@ private:
         {-1, -1, -1, -1, -1, -1, -1, -1},
         {-1, -1, -1, -1, -1, -1, -1, -1}};
 
+    int score = 0;
+    int moves = 30;
+
 public:
     Grid();
     Grid(const Grid &);
@@ -39,6 +42,7 @@ protected:
 
     // POPPING
 public:
+    void popAllCombinationsAndSpendMove();
     void popAllCombinations();
     void popTile(int row, int col);
 

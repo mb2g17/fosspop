@@ -3,6 +3,7 @@
 #include <array>
 #include <random>
 #include <chrono>
+#include <emscripten.h>
 
 #include "grid/grid.hpp"
 
@@ -27,6 +28,10 @@ Grid::Grid(const Grid &grid)
     for (int row = 0; row < 7; row++)
         for (int col = 0; col < 8; col++)
             this->gridArray[row][col] = grid.gridArray[row][col];
+
+    // Passes over score and moves
+    this->score = grid.score;
+    this->moves = grid.moves;
 
     initialised = true;
 }
@@ -138,6 +143,15 @@ void Grid::switchTiles(int row1, int col1, int row2, int col2)
     this->gridArray[row2][col2] = oldTile1;
 }
 
+void Grid::popAllCombinationsAndSpendMove()
+{
+    // Deduct moves
+    this->moves--;
+    EM_ASM(setMoves($1), this->moves);
+
+    this->popAllCombinations();
+}
+
 void Grid::popAllCombinations()
 {
     for (auto row = 0; row < 7; row++)
@@ -150,6 +164,8 @@ void Grid::popCombination(int row, int col)
 {
     PositionSet fringe = getVeinHere(row, col);
     PositionSet poppingSet;
+    auto noOfPoppedTiles = 0;
+    auto tile = gridArray[fringe.begin()->row][fringe.begin()->col];
 
     while (fringe.size() > 0)
     {
@@ -160,10 +176,36 @@ void Grid::popCombination(int row, int col)
 
         for (auto &combinationPos : combinationTiles)
         {
+            noOfPoppedTiles++;
             poppingSet.insert(combinationPos);
             fringe.erase(combinationPos);
         }
     }
+
+    // Updates score / moves
+    if (tile == 1)
+        this->moves += (noOfPoppedTiles - 1);
+    else
+    {
+        auto multiplier = noOfPoppedTiles - 2;
+        auto base = (noOfPoppedTiles - 2) * 10;
+
+        std::cout << "Multiplier: " << multiplier << std::endl;
+        std::cout << "Base: " << base << std::endl;
+
+        if (tile == 0)
+            this->score -= (base * multiplier * 2);
+        else
+            this->score += (base * multiplier);
+    }
+
+    // Update score / moves in web page
+    EM_ASM(
+        {
+            setScore($0);
+            setMoves($1);
+        },
+        this->score, this->moves);
 
     // Pop all tiles in popping set
     for (auto &poppingPos : poppingSet)
