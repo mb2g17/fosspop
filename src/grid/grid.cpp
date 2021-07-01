@@ -196,9 +196,6 @@ void Grid::popCombination(int row, int col)
         auto multiplier = noOfPoppedTiles - 2;
         auto base = (noOfPoppedTiles - 2) * 10;
 
-        std::cout << "Multiplier: " << multiplier << std::endl;
-        std::cout << "Base: " << base << std::endl;
-
         if (tile == 0)
             this->props.subtractScore(base * multiplier * 2);
         else

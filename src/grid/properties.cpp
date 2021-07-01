@@ -1,42 +1,51 @@
+#include <algorithm>
+
 #include "grid/properties.hpp"
 
 int Properties::getMoves()
 {
-    return this->moves;
+    return moves;
 }
+
 int Properties::getScore()
 {
-    return this->score;
+    return score;
 }
 
 void Properties::addMoves(int delta)
 {
-    if (!this->isLocked)
-        this->moves += delta;
+    if (!isLocked)
+        moves += delta;
 }
 
 void Properties::subtractMoves(int delta)
 {
-    if (!this->isLocked)
-        this->moves -= delta;
+    if (!isLocked)
+        moves = std::max(moves - delta, 0);
 }
 
 void Properties::addScore(int delta)
 {
-    if (!this->isLocked)
-        this->score += delta;
+    if (!isLocked)
+        score += delta;
 }
 void Properties::subtractScore(int delta)
 {
-    if (!this->isLocked)
-        this->score -= delta;
+    if (!isLocked)
+        score = std::max(score - delta, 0);
 }
 
 void Properties::lockProperties()
 {
-    this->isLocked = true;
+    isLocked = true;
 }
+
 void Properties::unlockProperties()
 {
-    this->isLocked = false;
+    isLocked = false;
+}
+
+bool Properties::stillHaveMoves()
+{
+    return moves > 0;
 }

@@ -17,4 +17,6 @@ public:
 
     void lockProperties();
     void unlockProperties();
+
+    bool stillHaveMoves();
 };
