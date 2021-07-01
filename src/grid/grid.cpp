@@ -3,7 +3,10 @@
 #include <array>
 #include <random>
 #include <chrono>
+
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#endif
 
 #include "grid/grid.hpp"
 
@@ -147,7 +150,9 @@ void Grid::popAllCombinationsAndSpendMove()
 {
     // Deduct moves
     this->moves--;
+#ifdef __EMSCRIPTEN__
     EM_ASM(setMoves($1), this->moves);
+#endif
 
     this->popAllCombinations();
 }
@@ -200,12 +205,14 @@ void Grid::popCombination(int row, int col)
     }
 
     // Update score / moves in web page
+#ifdef __EMSCRIPTEN__
     EM_ASM(
         {
             setScore($0);
             setMoves($1);
         },
         this->score, this->moves);
+#endif
 
     // Pop all tiles in popping set
     for (auto &poppingPos : poppingSet)
