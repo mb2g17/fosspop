@@ -1,6 +1,7 @@
 #pragma once
 
 #include "grid/position.hpp"
+#include "grid/properties.hpp"
 
 #include <random>
 
@@ -22,8 +23,7 @@ private:
         {-1, -1, -1, -1, -1, -1, -1, -1},
         {-1, -1, -1, -1, -1, -1, -1, -1}};
 
-    int score = 0;
-    int moves = 30;
+    Properties props;
 
 public:
     Grid();

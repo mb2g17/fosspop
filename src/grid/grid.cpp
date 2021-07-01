@@ -33,8 +33,7 @@ Grid::Grid(const Grid &grid)
             this->gridArray[row][col] = grid.gridArray[row][col];
 
     // Passes over score and moves
-    this->score = grid.score;
-    this->moves = grid.moves;
+    this->props = grid.props;
 
     initialised = true;
 }
@@ -55,12 +54,14 @@ void Grid::init()
         for (int col = 0; col < 8; col++)
             this->setTileRandomly(row, col);
 
-    // Removes combinations
+    // Removes combinations (temporarily locks properties so score doesn't change)
+    this->props.lockProperties();
     if (this->isCombinationAnywhere())
     {
         this->popAllCombinations();
         this->fillInSpaces();
     }
+    this->props.unlockProperties();
 
     initialised = true;
 }
@@ -149,9 +150,9 @@ void Grid::switchTiles(int row1, int col1, int row2, int col2)
 void Grid::popAllCombinationsAndSpendMove()
 {
     // Deduct moves
-    this->moves--;
+    this->props.subtractMoves(1);
 #ifdef __EMSCRIPTEN__
-    EM_ASM(setMoves($1), this->moves);
+    EM_ASM(setMoves($1), this->props.getMoves());
 #endif
 
     this->popAllCombinations();
@@ -189,7 +190,7 @@ void Grid::popCombination(int row, int col)
 
     // Updates score / moves
     if (tile == 1)
-        this->moves += (noOfPoppedTiles - 1);
+        this->props.addMoves(noOfPoppedTiles - 1);
     else
     {
         auto multiplier = noOfPoppedTiles - 2;
@@ -199,9 +200,9 @@ void Grid::popCombination(int row, int col)
         std::cout << "Base: " << base << std::endl;
 
         if (tile == 0)
-            this->score -= (base * multiplier * 2);
+            this->props.subtractScore(base * multiplier * 2);
         else
-            this->score += (base * multiplier);
+            this->props.addScore(base * multiplier);
     }
 
     // Update score / moves in web page
@@ -211,7 +212,7 @@ void Grid::popCombination(int row, int col)
             setScore($0);
             setMoves($1);
         },
-        this->score, this->moves);
+        this->props.getScore(), this->props.getMoves());
 #endif
 
     // Pop all tiles in popping set
