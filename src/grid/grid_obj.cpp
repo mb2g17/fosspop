@@ -3,6 +3,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include "grid/grid_obj.hpp"
 #include "assets/textures.hpp"
 
@@ -135,6 +139,16 @@ void GridObj::update(SDL_Renderer *renderer)
                 this->grid->popAllCombinations();
                 this->animate();
             }
+            else
+            {
+                // Animation has ended; are there moves?
+                if (!grid->stillHaveMoves())
+                {
+#ifdef __EMSCRIPTEN__
+                    EM_ASM(showGameOver());
+#endif
+                }
+            }
         }
     }
 }
@@ -148,6 +162,10 @@ void GridObj::startDrag()
 {
     // If things are falling, don't start any drag
     if (falling)
+        return;
+
+    // If game over, don't play
+    if (!grid->stillHaveMoves())
         return;
 
     auto row = getMouseRow();
@@ -167,6 +185,10 @@ void GridObj::endDrag()
 {
     // If things are falling, don't do any drag
     if (falling)
+        return;
+
+    // If game over, don't play
+    if (!grid->stillHaveMoves())
         return;
 
     auto startRow = dragRow;

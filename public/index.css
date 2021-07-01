@@ -1,3 +1,12 @@
+#gameover {
+    display: none;
+    text-align: center;
+    background-color: red;
+    color: darkred;
+    font-weight: bold;
+    padding: 10px 0;
+}
+
 /* Desktops */
 @media screen and (min-width: 1280px) {
     body {

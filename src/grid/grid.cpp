@@ -47,6 +47,11 @@ int Grid::getTile(int row, int col)
     return this->gridArray[row][col];
 }
 
+bool Grid::stillHaveMoves()
+{
+    return props.stillHaveMoves();
+}
+
 void Grid::init()
 {
     // Randomly inits grid

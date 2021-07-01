@@ -12,6 +12,11 @@ function setMoves(moves) {
     p.innerHTML = `Moves: ${moves}`;
 }
 
+function showGameOver() {
+    let p = document.getElementById("gameover");
+    p.style.display = "block";
+}
+
 // -- SET CANVAS SIZE --
 const canvas = document.getElementById("canvas");
 const vw = Math.max(
