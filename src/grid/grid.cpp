@@ -289,6 +289,13 @@ void Grid::moveTilesDown(int col)
 
 void Grid::setTileRandomly(int row, int col)
 {
+    int noOfBrokenHearts = findNumberOfBrokenHearts();
+    int selectedTile = uni(rng);
+
+    if (noOfBrokenHearts >= 12)
+        while (selectedTile == 0)
+            selectedTile = uni(rng);
+
     this->gridArray[row][col] = uni(rng);
 }
 
@@ -299,8 +306,12 @@ void Grid::setTileWithoutMakingCombination(int row, int col)
     shuffle(tiles.begin(), tiles.end(), std::default_random_engine(this->seed));
     this->seed++;
 
+    int noOfBrokenHearts = findNumberOfBrokenHearts();
     for (int &tile : tiles)
     {
+        if (tile == 0 && noOfBrokenHearts >= 12)
+            continue;
+
         this->gridArray[row][col] = tile;
         if (!this->isCombinationAnywhere())
             break;
@@ -397,4 +408,16 @@ bool Grid::isCombinationHere(int row, int col)
 {
     PositionSet combinationHere = getCombinationHere(row, col);
     return combinationHere.size() > 0;
+}
+
+int Grid::findNumberOfBrokenHearts()
+{
+    int count = 0;
+
+    for (auto row = 0; row < 7; row++)
+        for (auto col = 0; col < 8; col++)
+            if (gridArray[row][col] == 0)
+                count++;
+
+    return count;
 }

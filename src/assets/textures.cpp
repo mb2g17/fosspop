@@ -35,10 +35,10 @@ void Textures::updateTextures(SDL_Renderer *renderer, const char *packName)
     const char *filenames[7] = {
         "purple.fw.png", // 0 - broken heart
         "yellow.fw.png", // 1 - new move
+        "pink.fw.png",   // 2 - multiplier
         "blue.fw.png",
         "green.fw.png",
         "orange.fw.png",
-        "pink.fw.png",
         "red.fw.png",
     };
 

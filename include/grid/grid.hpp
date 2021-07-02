@@ -77,4 +77,5 @@ protected:
     // MISCELLANEOUS
 protected:
     bool isPositionInvalid(int row, int col);
+    int findNumberOfBrokenHearts();
 };
