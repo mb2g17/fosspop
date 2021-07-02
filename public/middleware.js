@@ -17,6 +17,12 @@ function showGameOver() {
     p.style.display = "block";
 }
 
+function toggleConsole() {
+    let console = document.getElementById("output");
+    if (console.style.display == "block") console.style.display = "none";
+    else console.style.display = "block";
+}
+
 // -- SET CANVAS SIZE --
 const canvas = document.getElementById("canvas");
 const vw = Math.max(
