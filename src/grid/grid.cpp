@@ -74,8 +74,16 @@ void Grid::init()
 void Grid::init(int gridArray[7][8])
 {
     for (int row = 0; row < 7; row++)
+    {
         for (int col = 0; col < 8; col++)
-            this->gridArray[row][col] = gridArray[row][col];
+        {
+            auto tile = gridArray[row][col];
+            if (tile < -1 || tile > 6)
+                throw std::out_of_range("Tile in array is out of range!");
+
+            this->gridArray[row][col] = tile;
+        }
+    }
 
     initialised = true;
 }
