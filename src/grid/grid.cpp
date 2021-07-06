@@ -298,13 +298,13 @@ void Grid::moveTilesDown(int col)
 void Grid::setTileRandomly(int row, int col)
 {
     int noOfBrokenHearts = findNumberOfBrokenHearts();
-    int selectedTile = uni(rng);
+    int generatedTile = uni(rng);
 
     if (noOfBrokenHearts >= 12)
-        while (selectedTile == 0)
-            selectedTile = uni(rng);
+        while (generatedTile == 0)
+            generatedTile = uni(rng);
 
-    this->gridArray[row][col] = uni(rng);
+    this->gridArray[row][col] = generatedTile;
 }
 
 void Grid::setTileWithoutMakingCombination(int row, int col)
