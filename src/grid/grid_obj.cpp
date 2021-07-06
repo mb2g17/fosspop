@@ -171,6 +171,10 @@ void GridObj::startDrag()
     auto row = getMouseRow();
     auto col = getMouseCol();
 
+    // If invalid row / col, don't drag
+    if (row < 0 || row >= 7 || col < 0 || col >= 8)
+        return;
+
     this->dragging = true;
     this->dragRow = row;
     this->dragCol = col;
