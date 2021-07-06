@@ -262,6 +262,15 @@ PositionSet Grid::getVeinHere(int row, int col)
 
 void Grid::popTile(int row, int col)
 {
+    if (row < 0)
+        throw std::out_of_range("Row is too low");
+    if (row >= 7)
+        throw std::out_of_range("Row is too high");
+    if (col < 0)
+        throw std::out_of_range("Col is too low");
+    if (col >= 8)
+        throw std::out_of_range("Col is too high");
+
     this->gridArray[row][col] = -1;
 }
 
