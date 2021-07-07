@@ -47,9 +47,9 @@ int Grid::getTile(int row, int col)
     return this->gridArray[row][col];
 }
 
-bool Grid::stillHaveMoves()
+Properties &Grid::getProps()
 {
-    return props.stillHaveMoves();
+    return props;
 }
 
 void Grid::init()

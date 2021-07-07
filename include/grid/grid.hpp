@@ -32,7 +32,7 @@ public:
     void init();
     void init(int[7][8]);
     int getTile(int row, int col);
-    bool stillHaveMoves();
+    Properties &getProps();
 
     // SWAPPING
 public:

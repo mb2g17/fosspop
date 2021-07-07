@@ -142,7 +142,7 @@ void GridObj::update(SDL_Renderer *renderer)
             else
             {
                 // Animation has ended; are there moves?
-                if (!grid->stillHaveMoves())
+                if (!grid->getProps().stillHaveMoves())
                 {
 #ifdef __EMSCRIPTEN__
                     EM_ASM(showGameOver());
@@ -165,7 +165,7 @@ void GridObj::startDrag()
         return;
 
     // If game over, don't play
-    if (!grid->stillHaveMoves())
+    if (!grid->getProps().stillHaveMoves())
         return;
 
     auto row = getMouseRow();
@@ -192,7 +192,7 @@ void GridObj::endDrag()
         return;
 
     // If game over, don't play
-    if (!grid->stillHaveMoves())
+    if (!grid->getProps().stillHaveMoves())
         return;
 
     auto startRow = dragRow;

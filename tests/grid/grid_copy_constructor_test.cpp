@@ -1,45 +1,59 @@
+#include <algorithm>
+#include <random>
+#include <chrono>
+
 #include "grid/grid.hpp"
 
 #include "gtest/gtest.h"
 
-TEST(GridCopyConstructor, should_copy_grid_array)
+namespace GridCopyConstructorTest
 {
-    Grid src;
-    Grid dst;
+    class GridCopyConstructorFixture : public testing::Test
+    {
+    public:
+        Grid src, dst;
 
-    src.init();
-    dst = Grid(src);
+        GridCopyConstructorFixture()
+        {
+            src = Grid();
+            src.init();
+            randomlySetMovesAndScore(src);
+            dst = Grid(src);
+        }
 
+        void randomlySetMovesAndScore(Grid &grid)
+        {
+            auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+            std::random_device rd;
+            auto rng = std::mt19937(rd());
+
+            auto movesDistribution = std::uniform_int_distribution<int>(5, 10);
+            auto newMoves = movesDistribution(rng);
+
+            auto scoreDistribution = std::uniform_int_distribution<int>(10, 100);
+            auto newScore = scoreDistribution(rng);
+
+            grid.getProps().addMoves(newMoves);
+            grid.getProps().addScore(newScore);
+        }
+    };
+}
+
+using namespace GridCopyConstructorTest;
+
+TEST_F(GridCopyConstructorFixture, should_copy_grid_array)
+{
     for (auto row = 0; row < 7; row++)
         for (auto col = 0; col < 8; col++)
             EXPECT_EQ(dst.getTile(row, col), src.getTile(row, col));
 }
 
-TEST(GridCopyConstructor, should_copy_whether_we_have_moves)
+TEST_F(GridCopyConstructorFixture, should_copy_moves)
 {
-    Grid src;
-    Grid dst;
-
-    src.init();
-    src.popAllCombinationsAndSpendMove();
-    dst = Grid(src);
-
-    EXPECT_EQ(dst.stillHaveMoves(), src.stillHaveMoves());
+    EXPECT_EQ(dst.getProps().getMoves(), src.getProps().getMoves());
 }
 
-TEST(GridCopyConstructor, should_copy_whether_we_dont_have_moves)
+TEST_F(GridCopyConstructorFixture, should_copy_score)
 {
-    Grid src;
-    Grid dst;
-
-    src.init();
-    while (src.stillHaveMoves())
-    {
-        src.popAllCombinationsAndSpendMove();
-        src.moveAllTilesDown();
-        src.fillInSpaces();
-    }
-    dst = Grid(src);
-
-    EXPECT_EQ(dst.stillHaveMoves(), src.stillHaveMoves());
+    EXPECT_EQ(dst.getProps().getScore(), src.getProps().getScore());
 }
