@@ -209,10 +209,12 @@ void Grid::popCombination(int row, int col)
         auto multiplier = noOfPoppedTiles - 2;
         auto base = (noOfPoppedTiles - 2) * 10;
 
-        if (tile == 0)
+        if (tile == 0) // Broken heart
             this->props.subtractScore(base * multiplier * 2);
+        else if (tile == 2) // Multiplier
+            this->props.addMultiplier(multiplier);
         else
-            this->props.addScore(base * multiplier);
+            this->props.addScore(base * multiplier * props.getMultiplier());
     }
 
     // Update score / moves in web page
@@ -221,8 +223,9 @@ void Grid::popCombination(int row, int col)
         {
             setScore($0);
             setMoves($1);
+            setMultiplier($2);
         },
-        this->props.getScore(), this->props.getMoves());
+        props.getScore(), props.getMoves(), props.getMultiplier());
 #endif
 
     // Pop all tiles in popping set

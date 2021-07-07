@@ -39,6 +39,14 @@ TEST(Properties, should_subtract_score)
     EXPECT_EQ(prop.getScore(), 70);
 }
 
+TEST(Properties, should_add_multiplier)
+{
+    Properties prop = Properties();
+    prop.addMultiplier(1);
+
+    EXPECT_EQ(prop.getMultiplier(), 2);
+}
+
 // --------------*
 // -- Lock
 // --------------*
@@ -77,6 +85,15 @@ TEST(Properties, should_not_subtract_score_after_lock)
     prop.subtractScore(30);
 
     EXPECT_EQ(prop.getScore(), 0);
+}
+
+TEST(Properties, should_not_add_multiplier_after_lock)
+{
+    Properties prop = Properties();
+    prop.lockProperties();
+    prop.addMultiplier(1);
+
+    EXPECT_EQ(prop.getMultiplier(), 1);
 }
 
 // --------------*
@@ -128,6 +145,17 @@ TEST(Properties, should_subtract_score_after_unlock)
     EXPECT_EQ(prop.getScore(), 70);
 }
 
+TEST(Properties, should_add_multiplier_after_unlock)
+{
+    Properties prop = Properties();
+    prop.lockProperties();
+    prop.addMultiplier(1);
+    prop.unlockProperties();
+    prop.addMultiplier(1);
+
+    EXPECT_EQ(prop.getMultiplier(), 2);
+}
+
 // --------------*
 // -- Other
 // --------------*
@@ -157,4 +185,11 @@ TEST(Properties, should_not_subtract_score_to_negative)
     Properties prop = Properties();
     prop.subtractScore(60);
     EXPECT_EQ(prop.getScore(), 0);
+}
+
+TEST(Properties, should_not_exceed_multiplier_maximum)
+{
+    Properties prop = Properties();
+    prop.addMultiplier(20);
+    EXPECT_EQ(prop.getMultiplier(), 10);
 }

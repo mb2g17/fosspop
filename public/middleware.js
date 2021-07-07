@@ -3,22 +3,29 @@ var progressElement = document.getElementById("progress");
 var spinnerElement = document.getElementById("spinner");
 
 function setScore(score) {
-    let p = document.getElementById("score");
+    const p = document.getElementById("score");
     p.innerHTML = `Score: ${score}`;
 }
 
 function setMoves(moves) {
-    let p = document.getElementById("moves");
+    const p = document.getElementById("moves");
     p.innerHTML = `Moves: ${moves}`;
 }
 
+function setMultiplier(multiplier) {
+    const p = document.getElementById("multiplier");
+    p.innerHTML = `Multiplier: x${multiplier} ${
+        multiplier >= 10 ? "(Max)" : ""
+    }`;
+}
+
 function showGameOver() {
-    let p = document.getElementById("gameover");
+    const p = document.getElementById("gameover");
     p.style.display = "block";
 }
 
 function toggleConsole() {
-    let console = document.getElementById("output");
+    const console = document.getElementById("output");
     if (console.style.display == "block") console.style.display = "none";
     else console.style.display = "block";
 }

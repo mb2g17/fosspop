@@ -12,6 +12,11 @@ int Properties::getScore()
     return score;
 }
 
+int Properties::getMultiplier()
+{
+    return multiplier;
+}
+
 void Properties::addMoves(int delta)
 {
     if (!isLocked)
@@ -33,6 +38,12 @@ void Properties::subtractScore(int delta)
 {
     if (!isLocked)
         score = std::max(score - delta, 0);
+}
+
+void Properties::addMultiplier(int delta)
+{
+    if (!isLocked)
+        multiplier = std::min(multiplier + delta, 10);
 }
 
 void Properties::lockProperties()
