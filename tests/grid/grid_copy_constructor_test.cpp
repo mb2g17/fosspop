@@ -23,15 +23,9 @@ namespace GridCopyConstructorTest
 
         void randomlySetMovesAndScore(Grid &grid)
         {
-            auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-            std::random_device rd;
-            auto rng = std::mt19937(rd());
-
-            auto movesDistribution = std::uniform_int_distribution<int>(5, 10);
-            auto newMoves = movesDistribution(rng);
-
-            auto scoreDistribution = std::uniform_int_distribution<int>(10, 100);
-            auto newScore = scoreDistribution(rng);
+            Random random = Random();
+            auto newMoves = random.getRandomNumber(5, 10);
+            auto newScore = random.getRandomNumber(10, 100);
 
             grid.getProps().addMoves(newMoves);
             grid.getProps().addScore(newScore);

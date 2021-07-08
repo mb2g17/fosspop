@@ -12,20 +12,12 @@
 
 Grid::Grid()
 {
-    // Inits randomness
-    this->seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::random_device rd;
-    rng = std::mt19937(rd());
-    uni = std::uniform_int_distribution<int>(0, 6);
+    random = Random();
 }
 
 Grid::Grid(const Grid &grid)
 {
-    // Inits randomness
-    this->seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::random_device rd;
-    rng = std::mt19937(rd());
-    uni = std::uniform_int_distribution<int>(0, 6);
+    random = Random();
 
     // Inits grid
     for (int row = 0; row < 7; row++)
@@ -310,11 +302,11 @@ void Grid::moveTilesDown(int col)
 void Grid::setTileRandomly(int row, int col)
 {
     int noOfBrokenHearts = findNumberOfBrokenHearts();
-    int generatedTile = uni(rng);
+    int generatedTile = random.getRandomTile();
 
     if (noOfBrokenHearts >= 12)
         while (generatedTile == 0)
-            generatedTile = uni(rng);
+            generatedTile = random.getRandomTile();
 
     this->gridArray[row][col] = generatedTile;
 }
@@ -323,8 +315,7 @@ void Grid::setTileWithoutMakingCombination(int row, int col)
 {
     // Shuffle tiles
     std::array<int, 7> tiles{0, 1, 2, 3, 4, 5, 6};
-    shuffle(tiles.begin(), tiles.end(), std::default_random_engine(this->seed));
-    this->seed++;
+    shuffle(tiles.begin(), tiles.end(), std::default_random_engine(random.getSeed()));
 
     int noOfBrokenHearts = findNumberOfBrokenHearts();
     for (int &tile : tiles)

@@ -2,17 +2,13 @@
 
 #include "grid/position.hpp"
 #include "grid/properties.hpp"
+#include "grid/random.hpp"
 
 #include <random>
 
 class Grid
 {
 private:
-    // Randomness
-    unsigned int seed;
-    std::mt19937 rng;
-    std::uniform_int_distribution<int> uni;
-
     bool initialised = false;
     int gridArray[7][8] = {
         {-1, -1, -1, -1, -1, -1, -1, -1},
@@ -23,6 +19,7 @@ private:
         {-1, -1, -1, -1, -1, -1, -1, -1},
         {-1, -1, -1, -1, -1, -1, -1, -1}};
 
+    Random random;
     Properties props;
 
 public:

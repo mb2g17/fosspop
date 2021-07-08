@@ -3,4 +3,5 @@ add_library(Grid
     grid_obj.cpp
     position.cpp
     properties.cpp
+    random.cpp
 )
