@@ -1,6 +1,7 @@
 # FossPop
 
 [![Build Status](https://jenkins.matt-barnes.co.uk/buildStatus/icon?job=FossPop)](https://jenkins.matt-barnes.co.uk/job/FossPop/)
+[![Available on GitHub](https://img.shields.io/badge/Available%20on-GitHub-white?logo=github)](https://github.com/mb2g17/fosspop)
 
 ## Table of contents
 
