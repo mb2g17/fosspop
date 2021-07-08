@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Emscripten-Generated Code</title>
+        <link rel="stylesheet" href="emscripten.css" />
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <div id="game">
+            <div id="logo">
+                <img src="logo.png" />
+            </div>
+
+            <div class="emscripten_border">
+                <canvas
+                    class="emscripten"
+                    id="canvas"
+                    oncontextmenu="event.preventDefault()"
+                    tabindex="-1"
+                ></canvas>
+            </div>
+
+            <div id="controls">
+                <div class="spinner" id="spinner"></div>
+                <div class="emscripten" id="status">Downloading...</div>
+
+                <p id="gameover">No more moves!</p>
+
+                <p id="score">Score: 0</p>
+                <p id="moves">Moves: 30</p>
+                <p id="multiplier">Multiplier: x1</p>
+
+                <input type=checkbox onchange="toggleConsole()">Enable console</input>
+
+                <div class="emscripten">
+                    <progress
+                        value="0"
+                        max="100"
+                        id="progress"
+                        hidden="1"
+                    ></progress>
+                </div>
+
+                <textarea id="output" rows="8"></textarea>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="middleware.js"></script>
+        <script async type="text/javascript" src="FossPop.js"></script>
+    </body>
+</html>
