@@ -3,8 +3,18 @@ type: docker
 name: fosspop
 
 steps:
-- name: run_tests
-  image: alpine
+- name: test
+  image: emscripten/emsdk
   commands:
-    - docker build -t fosspop-tests -f Dockerfile.tests .
-    - docker run fosspop-tests
+    - echo "Current working directory"
+    - pwd
+    - echo "Current directory contents"
+    - ls -la
+    - apt update
+    - apt install -y libsdl2-dev
+    - apt install -y libsdl2-image-dev
+    - mkdir $(pwd)/cmake_tests
+    - cd cmake_tests
+    - cmake $(pwd)/..
+    - make
+    - ./tests/FossPop_Tests
