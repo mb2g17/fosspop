@@ -1,0 +1,10 @@
+kind: pipeline
+type: docker
+name: fosspop
+
+steps:
+- name: run_tests
+  image: alpine
+  commands:
+    - docker build -t fosspop-tests -f Dockerfile.tests .
+    - docker run fosspop-tests
