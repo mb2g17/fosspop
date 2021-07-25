@@ -1,6 +1,6 @@
 ![FossPop](logo.png)
 
-[![Build Status](https://jenkins.matt-barnes.co.uk/buildStatus/icon?job=FossPop)](https://jenkins.matt-barnes.co.uk/job/FossPop/)
+[![Build Status](https://drone.matt-barnes.co.uk/api/badges/mb2g17/fosspop/status.svg)](https://drone.matt-barnes.co.uk/mb2g17/fosspop)
 [![Available on GitHub](https://img.shields.io/badge/Available%20on-GitHub-white?logo=github)](https://github.com/mb2g17/fosspop)
 
 ## Table of contents
