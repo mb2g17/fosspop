@@ -9,6 +9,7 @@
 #endif
 
 #include "grid/grid.hpp"
+#include "assets/audio.hpp"
 
 Grid::Grid()
 {
@@ -190,6 +191,29 @@ void Grid::popCombination(int row, int col)
             noOfPoppedTiles++;
             poppingSet.insert(combinationPos);
             fringe.erase(combinationPos);
+        }
+    }
+
+    // Play sound depending on vein (only if we've finished initialising)
+    if (initialised)
+    {
+        if (tile == 0)
+            Audio::getInstance().playNegative();
+        else if (tile == 1)
+            Audio::getInstance().playRing();
+        else if (tile == 2)
+        {
+            if (this->props.getMultiplier() == 10)
+                Audio::getInstance().playMaxPink();
+            else
+                Audio::getInstance().playPink();
+        }
+        else
+        {
+            if (noOfPoppedTiles == 3)
+                Audio::getInstance().playPositive();
+            else
+                Audio::getInstance().playMorePositive();
         }
     }
 

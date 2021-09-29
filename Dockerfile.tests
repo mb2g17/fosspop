@@ -1,7 +1,7 @@
 FROM emscripten/emsdk
 
 # Installs SDL2 and SDL_Image
-RUN apt update && apt install -y libsdl2-dev && apt install -y libsdl2-image-dev
+RUN apt update && apt install -y libsdl2-dev && apt install -y libsdl2-image-dev && apt install -y libsdl2-mixer-dev
 
 # Copies source files
 COPY src /src/src

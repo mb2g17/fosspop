@@ -2,6 +2,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -9,6 +10,7 @@
 
 #include "grid/grid_obj.hpp"
 #include "assets/textures.hpp"
+#include "assets/audio.hpp"
 
 GridObj::GridObj(SDL_Renderer *renderer)
 {
@@ -144,6 +146,7 @@ void GridObj::update(SDL_Renderer *renderer)
                 // Animation has ended; are there moves?
                 if (!grid->getProps().stillHaveMoves())
                 {
+                    Audio::getInstance().playLose();
 #ifdef __EMSCRIPTEN__
                     EM_ASM(showGameOver());
 #endif
