@@ -30,6 +30,7 @@ The prerequisites for this project are:
 -   Emscripten SDK
 -   SDL2
 -   SDL2_image
+-   SDL2_mixer
 
 ## Project
 
