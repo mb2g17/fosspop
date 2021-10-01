@@ -15,6 +15,7 @@ class Audio
     Mix_Chunk *morePositive;
     Mix_Chunk *ring;
     Mix_Chunk *lose;
+    Mix_Chunk *trumpet;
     bool initialised;
 
     Audio()
@@ -26,6 +27,7 @@ class Audio
         morePositive = loadSound("assets/sounds/morePositive.wav");
         ring = loadSound("assets/sounds/ring.wav");
         lose = loadSound("assets/sounds/lose.wav");
+        trumpet = loadSound("assets/sounds/trumpet.wav");
 
         initialised = false;
     };
@@ -47,6 +49,7 @@ public:
     void playMorePositive();
     void playRing();
     void playLose();
+    void playTrumpet();
 
 private:
     Mix_Chunk *loadSound(const char *path);

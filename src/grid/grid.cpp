@@ -217,6 +217,9 @@ void Grid::popCombination(int row, int col)
         }
     }
 
+    // Remembers if we're at max multiplier
+    auto atMaxMultiplierBefore = this->props.getMultiplier() == 10;
+
     // Updates score / moves
     if (tile == 1)
         this->props.addMoves(noOfPoppedTiles - 1);
@@ -231,6 +234,12 @@ void Grid::popCombination(int row, int col)
             this->props.addMultiplier(multiplier);
         else
             this->props.addScore(base * multiplier * props.getMultiplier());
+    }
+
+    // If we've just made it to max multiplier
+    if (!atMaxMultiplierBefore && this->props.getMultiplier() == 10)
+    {
+        Audio::getInstance().playTrumpet();
     }
 
     // Update score / moves in web page
