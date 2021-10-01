@@ -11,7 +11,7 @@ Audio::~Audio()
     Mix_FreeChunk(morePositive);
     Mix_FreeChunk(ring);
     Mix_FreeChunk(lose);
-    Mix_FreeChunk(trumpet);
+    Mix_FreeChunk(maxMultiplier);
 }
 
 void Audio::playNegative()
@@ -49,9 +49,9 @@ void Audio::playLose()
     playSound(lose);
 }
 
-void Audio::playTrumpet()
+void Audio::playMaxMultiplier()
 {
-    playSound(trumpet);
+    playSound(maxMultiplier);
 }
 
 Mix_Chunk *Audio::loadSound(const char *path)

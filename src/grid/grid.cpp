@@ -194,29 +194,6 @@ void Grid::popCombination(int row, int col)
         }
     }
 
-    // Play sound depending on vein (only if we've finished initialising)
-    if (initialised)
-    {
-        if (tile == 0)
-            Audio::getInstance().playNegative();
-        else if (tile == 1)
-            Audio::getInstance().playRing();
-        else if (tile == 2)
-        {
-            if (this->props.getMultiplier() == 10)
-                Audio::getInstance().playMaxPink();
-            else
-                Audio::getInstance().playPink();
-        }
-        else
-        {
-            if (noOfPoppedTiles == 3)
-                Audio::getInstance().playPositive();
-            else
-                Audio::getInstance().playMorePositive();
-        }
-    }
-
     // Remembers if we're at max multiplier
     auto atMaxMultiplierBefore = this->props.getMultiplier() == 10;
 
@@ -236,10 +213,33 @@ void Grid::popCombination(int row, int col)
             this->props.addScore(base * multiplier * props.getMultiplier());
     }
 
-    // If we've just made it to max multiplier
-    if (!atMaxMultiplierBefore && this->props.getMultiplier() == 10)
+    // Play sound depending on vein (only if we've finished initialising)
+    if (initialised)
     {
-        Audio::getInstance().playTrumpet();
+        if (tile == 0)
+            Audio::getInstance().playNegative();
+        else if (tile == 1)
+            Audio::getInstance().playRing();
+        else if (tile == 2)
+        {
+            if (atMaxMultiplierBefore)
+                Audio::getInstance().playMaxPink();
+            else
+            {
+                // If we've just made it to max multiplier
+                if (this->props.getMultiplier() == 10)
+                    Audio::getInstance().playMaxMultiplier();
+                else
+                    Audio::getInstance().playPink();
+            }
+        }
+        else
+        {
+            if (noOfPoppedTiles == 3)
+                Audio::getInstance().playPositive();
+            else
+                Audio::getInstance().playMorePositive();
+        }
     }
 
     // Update score / moves in web page
