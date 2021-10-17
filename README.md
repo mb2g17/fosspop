@@ -2,6 +2,7 @@
 
 [![Build Status](https://drone.matt-barnes.co.uk/api/badges/mb2g17/fosspop/status.svg)](https://drone.matt-barnes.co.uk/mb2g17/fosspop)
 [![Available on GitHub](https://img.shields.io/badge/Available%20on-GitHub-white?logo=github)](https://github.com/mb2g17/fosspop)
+[![License: AGPL v3](https://img.shields.io/badge/Licenced%20under-AGPLv3-blue?logo=gnu)](https://www.gnu.org/licenses/agpl-3.0)
 
 ## Table of contents
 
