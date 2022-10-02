@@ -20,7 +20,7 @@ This clone takes out all the dating aspects of HuniePop, leaving just the puzzle
 
 # Demo
 
-[A demo of the game can be played on the GitHub Pages site.](https://mb2g17.github.io/fosspop/)
+[A demo of the game can be played on the GitHub Pages site.](https://demos.matt-barnes.co.uk/fosspop/)
 
 # Setup (Manual)
 
